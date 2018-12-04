@@ -33,6 +33,8 @@ namespace ProyectoGoogleMapsConGrafos
         public Mapa() 
         {  
             InitializeComponent();
+
+              
         }
 
         private void Mapa_Load(object sender, EventArgs e)
@@ -48,14 +50,14 @@ namespace ProyectoGoogleMapsConGrafos
             //Inicializacion de propiedades por defecto del control gMap
            
             
-            GMaps.Instance.Mode = AccessMode.CacheOnly;
+            GMaps.Instance.Mode = AccessMode.ServerOnly;
             gMapControl1.DragButton = MouseButtons.Left;
             gMapControl1.CanDragMap = true;
             gMapControl1.MapProvider = GoogleMapProvider.Instance;
             gMapControl1.Position = new PointLatLng(this.vgLatitudInicial, this.vgLongitudInicial);
             gMapControl1.MinZoom = 0;
             gMapControl1.MaxZoom = 24;
-            gMapControl1.Zoom = 9;
+            gMapControl1.Zoom = 15;
             gMapControl1.AutoScroll = true;
             //Marcador
             vgMarkerOverlay = new GMapOverlay("Marcadores");
