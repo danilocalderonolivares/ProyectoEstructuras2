@@ -15,7 +15,7 @@ namespace Core
         public TablaHash()
         {
             this.NumeroDeDatos = 0;
-            this.Tamanio = 11;
+            this.Tamanio = 8;
             this.Vector = new Informacion<Clave, T>[this.Tamanio];
             this.InicializarListas();
         }
