@@ -133,6 +133,38 @@ namespace Core
             Console.WriteLine(result);
             return result;
         }
+        public Lista<Vertice<T>> GetListaSucesores(string pVertice)
+        {
+            Lista<Vertice<T>> ListaVerticesSucesores = new Lista<Vertice<T>>();
+            int index = ArregloDVertices.GetIndex(pVertice);
+            if (index >= 0)
+            {
+                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                {
+                    if (MatrizArcos[index, i] != null)
+                    {
+                        ListaVerticesSucesores.InsertarAlFinal( MatrizArcos[index, i].GetVertB());
+                    }
+                }
+            }
+            return ListaVerticesSucesores;
+        }
+        public Lista<Vertice<T>> GetListaPredecesores(string pVertice)
+        {
+            Lista<Vertice<T>> ListaVerticesPredecesores = new Lista<Vertice<T>>();
+            int index = ArregloDVertices.GetIndex(pVertice);
+            if (index >= 0)
+            {
+                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                {
+                    if (MatrizArcos[index, i] != null)
+                    {
+                        ListaVerticesPredecesores.InsertarAlFinal(MatrizArcos[i,index].GetVertA());
+                    }
+                }
+            }
+            return ListaVerticesPredecesores;
+        }
         public Vertice<T> GetVeticePorNombre(string pNombre)
         {
             Vertice<T> vertice = ArregloDVertices.BuscaHashPorClave(pNombre);
