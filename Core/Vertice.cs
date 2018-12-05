@@ -2,9 +2,6 @@
 {
     public class Vertice<T>
     {
-        public int X = 300;
-        public int Y = 60;
-        public int Radio = 50;
         private T Info;
         public string Nombre { get; set; }
         private bool EsVisit;

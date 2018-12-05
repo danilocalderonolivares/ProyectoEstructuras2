@@ -10,7 +10,6 @@ namespace Core
 {
     public class Lista<T>
     {
-
         private NodoL<T> Cabeza;
         private int Tamanio = 0;
         public Lista()
@@ -77,7 +76,8 @@ namespace Core
                 this.Cabeza = newNode;
                 result = true;
             }
-            else {
+            else
+            {
                 int rta = Comparable.GetInstancia().Compare(this.Cabeza.GetInfo(), 0);
                 if (rta == 0 && this.Cabeza.GetSig() == null && this.Tamanio == 0)
                 {
@@ -218,7 +218,6 @@ namespace Core
             }
             return (default(T));
         }
-
         public void Vaciar()
         {
             this.Cabeza.SetSig(Cabeza);
@@ -241,7 +240,6 @@ namespace Core
             }
             return default(T);
         }
-
         public void Set(int i, T dato)
         {
             try
@@ -267,12 +265,10 @@ namespace Core
         {
             return (Cabeza == null || this.Tamanio == 0);
         } 
-
         public bool Esta(T info)
         {
             return (this.GetIndice(info) != -1);
         }
-
         public  NodoL<T> ElimiAlFinal()
         {
 
@@ -340,7 +336,6 @@ namespace Core
         }
         public override String ToString()
         {
-
             string valores = "";
             int cont = 0;
             NodoL<T> aux;
@@ -348,7 +343,6 @@ namespace Core
             valores = "Longitud : " + this.GetTamanio()+ "\n";
             while (this.GetTamanio() > cont)
             {
-
                 valores = valores + "\n           Dato : " + aux.GetInfo() + ", Nodo: " + aux.GetHashCode() + " \n";
                 aux = aux.GetSig();
                 cont++;
@@ -381,9 +375,11 @@ namespace Core
             }
             for (NodoL<T> x = this.Cabeza.GetSig(); x != this.Cabeza && x != null; x = x.GetSig())
             {
-                
+
                 if (x.GetInfo().Equals(dato))
+                {
                     return (i);
+                }
                 i++;
             }
             return (-1);
