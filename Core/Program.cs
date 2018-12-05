@@ -19,8 +19,8 @@ namespace Core
             g.InsertarArco("F", "G", 3);
             g.InsertarArco("F", "H", 3);
             g.MostrarPredecesores("F");
-            g.MostrarSucesores("F");
-            Console.WriteLine(v.ToString());
+            g.MostrarSucesores("A");
+            Console.WriteLine(v.Nombre);
             Console.ReadLine();
         }
     }
