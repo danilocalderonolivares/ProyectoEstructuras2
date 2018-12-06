@@ -2,21 +2,21 @@
 
 namespace Core
 {
-    public class GrafoMatriz<T>
+    public class Grafo<T>
     {
-        private int AutoPesoAristas = 0;
         private bool Dirigido = false;
         private Arista<T>[,] MatrizArcos = new Arista<T>[8, 8];
         private TablaHash<String, Vertice<T>>  ArregloDVertices;
 
-        public GrafoMatriz()
+        public Grafo()
         {
             ArregloDVertices = new TablaHash<String, Vertice<T>>();
             this.InicializarArregloDVertices();
         }
-        public GrafoMatriz(bool pDirigido)
+        public Grafo(bool pDirigido)
         {
             this.Dirigido = pDirigido;
+            ArregloDVertices = new TablaHash<String, Vertice<T>>();
             this.InicializarArregloDVertices();
         }
         private void InicializarArregloDVertices()
@@ -52,7 +52,6 @@ namespace Core
             indexB = ArregloDVertices.GetIndex(pVerticeB);
             if (indexA >= 0 && indexB >= 0)
             {
-                this.AutoPesoAristas++;
                 MatrizArcos[indexA, indexB] = new Arista<T>(ArregloDVertices.BuscaHashPorClave(pVerticeA), ArregloDVertices.BuscaHashPorClave(pVerticeB), pPeso);
                 if (!Dirigido)
                 {
@@ -126,13 +125,45 @@ namespace Core
                 {
                     if (MatrizArcos[index, i] != null)
                     {
-                        result += MatrizArcos[i, index].GetVertB().Nombre;
+                        result += MatrizArcos[index,i].GetVertB().Nombre;
                         result += "\n";
                     }
                 }
             }
             Console.WriteLine(result);
             return result;
+        }
+        public Lista<Vertice<T>> GetListaSucesores(string pVertice)
+        {
+            Lista<Vertice<T>> ListaVerticesSucesores = new Lista<Vertice<T>>();
+            int index = ArregloDVertices.GetIndex(pVertice);
+            if (index >= 0)
+            {
+                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                {
+                    if (MatrizArcos[index, i] != null)
+                    {
+                        ListaVerticesSucesores.InsertarAlFinal( MatrizArcos[index, i].GetVertB());
+                    }
+                }
+            }
+            return ListaVerticesSucesores;
+        }
+        public Lista<Vertice<T>> GetListaPredecesores(string pVertice)
+        {
+            Lista<Vertice<T>> ListaVerticesPredecesores = new Lista<Vertice<T>>();
+            int index = ArregloDVertices.GetIndex(pVertice);
+            if (index >= 0)
+            {
+                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                {
+                    if (MatrizArcos[index, i] != null)
+                    {
+                        ListaVerticesPredecesores.InsertarAlFinal(MatrizArcos[i,index].GetVertA());
+                    }
+                }
+            }
+            return ListaVerticesPredecesores;
         }
         public Vertice<T> GetVeticePorNombre(string pNombre)
         {
