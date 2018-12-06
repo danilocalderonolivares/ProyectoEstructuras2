@@ -7,6 +7,7 @@ using GMap.NET.WindowsForms.Markers;
 using System.Data;
 using System.Drawing;
 using System.Collections.Generic;
+using Core;
 
 namespace ProyectoGoogleMapsConGrafos
 {
@@ -21,8 +22,8 @@ namespace ProyectoGoogleMapsConGrafos
 
         //Variable glovales de posicionamiento
         int vgFilaSeleccionada = 0;
-        double vgLatitudInicial = 20.9688132813906;
-        double vgLongitudInicial = -89.6250915527344;
+        double vgLatitudInicial = 40.6473035625225;
+        double vgLongitudInicial = -104.677734375;
 
         // Variables globales de enrutamiento
         bool vgTrazarRuta = false;
@@ -34,30 +35,27 @@ namespace ProyectoGoogleMapsConGrafos
         {  
             InitializeComponent();
 
-              
         }
 
         private void Mapa_Load(object sender, EventArgs e)
         {
             //Se crean las columnas del DataTable
             vgDataTable = new DataTable();
-            vgDataTable.Columns.Add(new DataColumn("Descripcion",typeof( string )));
+            vgDataTable.Columns.Add(new DataColumn("Nombre",typeof( string )));
             vgDataTable.Columns.Add(new DataColumn("Latitud", typeof(double)));
             vgDataTable.Columns.Add(new DataColumn("Longitud", typeof(double)));
             //Se agregan registros(Rows) al DataTable
             //Se agrega el DataTable al DataGridView
             dataGridView2.DataSource = vgDataTable;
             //Inicializacion de propiedades por defecto del control gMap
-           
-            
             GMaps.Instance.Mode = AccessMode.ServerOnly;
             gMapControl1.DragButton = MouseButtons.Left;
             gMapControl1.CanDragMap = true;
             gMapControl1.MapProvider = GoogleMapProvider.Instance;
             gMapControl1.Position = new PointLatLng(this.vgLatitudInicial, this.vgLongitudInicial);
-            gMapControl1.MinZoom = 0;
-            gMapControl1.MaxZoom = 24;
-            gMapControl1.Zoom = 15;
+            gMapControl1.MinZoom = 4;
+            gMapControl1.MaxZoom = 5;
+            gMapControl1.Zoom = 4;
             gMapControl1.AutoScroll = true;
             //Marcador
             vgMarkerOverlay = new GMapOverlay("Marcadores");
@@ -67,6 +65,7 @@ namespace ProyectoGoogleMapsConGrafos
             // Se agrega el overrlay al mapa
             gMapControl1.Overlays.Add(MarkerOverlay);
             gMapControl1.Overlays.Add(vgMarkerOverlay);
+            InicializarDatos();
         }
 
         private void SeleccionarRegistro(object sender, DataGridViewCellMouseEventArgs e)
@@ -172,6 +171,20 @@ namespace ProyectoGoogleMapsConGrafos
             gMapControl1.Overlays[0].Markers[0].ToolTipText = String.Format("Ubicacion: \nLatitud: {0} \nLongitud: {1}", latitud, longitud);
             this.CrearDireccionTrazarRuta(latitud, longitud);
 
+        }
+        private void InicializarDatos()
+        {
+            SerializadorJson Serializador = SerializadorJson.GetInstancia();
+            object[] objetosResultante = (object[])Serializador.GetDatosDelArchivoJson("Lugares");
+            for (int i = 0; i < objetosResultante.Length;i++)
+            {
+                Dictionary<string, object> datos = (Dictionary<string, object>)objetosResultante[i];
+                vgMarker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(datos["Latitud"]), Convert.ToDouble(datos["Longitud"])), GMarkerGoogleType.green);
+                vgMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                vgMarker.ToolTipText = String.Format("Nombre lugar: {0} \nUbicacion: \nLatitud: {1} \nLongitud: {2}", datos["Nombre"], datos["Latitud"], datos["Longitud"]);
+                gMapControl1.Overlays[1].Markers.Add(vgMarker);
+                vgDataTable.Rows.Add(datos["Nombre"], datos["Latitud"],datos["Longitud"]);
+            }
         }
     }
 }

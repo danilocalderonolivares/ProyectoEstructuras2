@@ -22,9 +22,6 @@ namespace Core
             }
             return Instancia;
         }
-        private void InicializarDatos()
-        {
-
-        }
+       
     }
 }

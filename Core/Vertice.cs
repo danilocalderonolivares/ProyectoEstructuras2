@@ -1,10 +1,10 @@
 ﻿namespace Core
 {
-    public class Vertice<T>
+    public class Vertice<T> 
     {
-        private T Info;
+        public T Info { get; set; }
         public string Nombre { get; set; }
-        private bool EsVisit;
+        public bool EsVisit { get; set; }
         public Vertice(string pNombre) 
         {
             this.Nombre = pNombre;
@@ -21,29 +21,11 @@
             this.Info = pInfo;
             this.EsVisit = false;
         }
-        public T GetInfo()
+        public Vertice(bool pEsvisitado ,string pNombre, T pInfo)
         {
-            return Info;
-        }
-        public bool GetVisit()
-        {
-            return EsVisit;
-        }
-        public void SetInfo(T pInfo)
-        {
+            this.Nombre = pNombre;
             this.Info = pInfo;
-        }
-        public void SetVisit(bool pEsVisit)
-        {
-            this.EsVisit = pEsVisit;
-        }
-        public bool Equals(Vertice<T> pVertice)
-        {
-            return (this.Info.Equals(pVertice.GetInfo()));
-        }
-        public override string ToString()
-        {
-            return "(" + this.Nombre + ")";
+            this.EsVisit = pEsvisitado;
         }
     }
 }
