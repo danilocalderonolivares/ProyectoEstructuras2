@@ -6,7 +6,7 @@ namespace Core
     {
         private Vertice<T> VerticeA;
         private Vertice<T> VerticeB;
-        private int Peso;
+        private double Peso;
         private string Etiqueta;
         private bool EsVisit;
         private T Informacion { get; set; }
@@ -24,14 +24,14 @@ namespace Core
                 }
             }
         }
-        public Arista(Vertice<T> pVerticeA, Vertice<T> pVerticeB, int pPeso)
+        public Arista(Vertice<T> pVerticeA, Vertice<T> pVerticeB, double pPeso)
         {
             this.VerticeA = pVerticeA;
             this.VerticeB = pVerticeB;
             this.Peso = pPeso;
             this.EsVisit = false;
         }
-        public Arista(Vertice<T> pVerticeA, Vertice<T> pVerticeB, int pPeso,string pEtiqueta)
+        public Arista(Vertice<T> pVerticeA, Vertice<T> pVerticeB, double pPeso,string pEtiqueta)
         {
             this.VerticeA = pVerticeA;
             this.VerticeB = pVerticeB;
@@ -55,7 +55,7 @@ namespace Core
         {
             this.VerticeB = pVerticeB;
         }
-        public int GetPeso()
+        public double GetPeso()
         {
             return Peso;
         }

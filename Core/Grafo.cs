@@ -5,28 +5,32 @@ namespace Core
     public class Grafo<T>
     {
         private bool Dirigido = false;
-        private Arista<T>[,] MatrizArcos = new Arista<T>[8, 8];
+        private Arista<T>[,] MatrizArcos;
         private TablaHash<String, Vertice<T>>  ArregloDVertices;
 
         public Grafo()
         {
-            ArregloDVertices = new TablaHash<String, Vertice<T>>();
-            this.InicializarArregloDVertices();
+            ArregloDVertices = new TablaHash<String, Vertice<T>>(40);
+            MatrizArcos = new Arista<T>[TablaHash<String, Vertice<T>>.ObtenerPrimo(40), TablaHash<String, Vertice<T>>.ObtenerPrimo(40)];
         }
         public Grafo(bool pDirigido)
         {
             this.Dirigido = pDirigido;
-            ArregloDVertices = new TablaHash<String, Vertice<T>>();
-            this.InicializarArregloDVertices();
+            ArregloDVertices = new TablaHash<String, Vertice<T>>(40);
+            MatrizArcos = new Arista<T>[TablaHash<String, Vertice<T>>.ObtenerPrimo(40), TablaHash<String, Vertice<T>>.ObtenerPrimo(40)];
         }
-        private void InicializarArregloDVertices()
+        public  bool InsertaVertice(string pNombre, T pInformacion)
         {
-            int indice = 0;
-            for (int valorAscii = 65; valorAscii < 73; valorAscii++)
+            return  ArregloDVertices.Insertar(pNombre, new Vertice<T>(pNombre,pInformacion));
+        }
+        public bool InsertarArco(string pVertice1, string pVertice2, double pPeso)
+        {
+            if (!(ExisteArco(pVertice1, pVertice2)))
             {
-                ArregloDVertices.Insertar(Convert.ToChar(valorAscii).ToString(), new Vertice<T>(Convert.ToChar(valorAscii).ToString()));
-                indice++;
+                CrearRelacion(pVertice1, pVertice2, pPeso);
+                return true;
             }
+            return false;
         }
         public bool GetDirigido()
         {
@@ -36,16 +40,8 @@ namespace Core
         {
             this.Dirigido = pDirigido;
         }
-        public bool InsertarArco(string pVertice1, string pVertice2, int pPeso)
-        {
-            if (!(ExisteArco(pVertice1, pVertice2)))
-            {
-                CrearRelacion(pVertice1, pVertice2, pPeso);
-                return true;
-            }
-            return false;
-        }
-        private void CrearRelacion(string pVerticeA, string pVerticeB, int pPeso = 0)
+
+        private void CrearRelacion(string pVerticeA, string pVerticeB, double pPeso = 0)
         {
             int indexA, indexB;
             indexA = ArregloDVertices.GetIndex(pVerticeA);

@@ -11,15 +11,15 @@ namespace Core
         public TablaHash()
         {
             this.NumeroDeDatos = 0;
-            this.Tamanio = 8;
+            this.Tamanio = ObtenerPrimo(40);
             this.Vector = new Informacion<Clave, T>[this.Tamanio];
             this.InicializarListas();
         }
         public TablaHash(int tamanio)
         {
             this.NumeroDeDatos = 0;
-            this.Tamanio = tamanio;
-            this.Vector = new Informacion<Clave, T>[tamanio];
+            this.Tamanio = ObtenerPrimo(tamanio);
+            this.Vector = new Informacion<Clave, T>[this.Tamanio];
             this.InicializarListas();
         }
         private int Hashing1(int clave)
