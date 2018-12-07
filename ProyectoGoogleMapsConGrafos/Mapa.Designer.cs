@@ -65,7 +65,7 @@
             this.txtLongitud.Location = new System.Drawing.Point(966, 411);
             this.txtLongitud.Multiline = true;
             this.txtLongitud.Name = "txtLongitud";
-            this.txtLongitud.Size = new System.Drawing.Size(189, 25);
+            this.txtLongitud.Size = new System.Drawing.Size(151, 25);
             this.txtLongitud.TabIndex = 4;
             // 
             // btnAgregar
@@ -130,7 +130,7 @@
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Location = new System.Drawing.Point(765, 12);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(359, 258);
+            this.dataGridView2.Size = new System.Drawing.Size(344, 223);
             this.dataGridView2.TabIndex = 12;
             this.dataGridView2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.SeleccionarRegistro);
             this.dataGridView2.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.SeleccionarRegistro);
@@ -181,7 +181,7 @@
             // 
             // Mapa
             // 
-            this.ClientSize = new System.Drawing.Size(1184, 555);
+            this.ClientSize = new System.Drawing.Size(1127, 458);
             this.Controls.Add(this.gMapControl1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);

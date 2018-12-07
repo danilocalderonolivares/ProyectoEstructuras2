@@ -54,11 +54,6 @@ namespace Core
             string path = @"" + this.RutaDirecctorio + @"\" + pNombreArchivo + ".json";
             if (pNombreArchivo.Trim() != "" && !File.Exists(path))
             {
-                using (StreamWriter file = File.CreateText(path))
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Serialize(file, pObjeto);
-                }
                 String salidaJSON = JsonConvert.SerializeObject(pObjeto);
                 File.WriteAllText(path, salidaJSON);
                 return path;

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoGoogleMapsConGrafos", "ProyectoGoogleMapsConGrafos\ProyectoGoogleMapsConGrafos.csproj", "{28D5E230-1BA7-4026-9350-FE662C560DFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "ProyectoGoogleMapsConGrafos\UI.csproj", "{28D5E230-1BA7-4026-9350-FE662C560DFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{809E372B-C2C5-4C8D-8C5B-D5B6E27082D8}"
 EndProject
