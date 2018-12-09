@@ -91,7 +91,7 @@ namespace Core
         }
         public T GetForIndex(int pIndex)
         {
-            if (pIndex > Tamanio - 1 && pIndex < this.Tamanio)
+            if (pIndex > - 1 && pIndex < this.Tamanio)
             {
                 return Vector[pIndex].GetInformacion();
             }
@@ -183,6 +183,10 @@ namespace Core
             {
                 return true;
             }
+        }
+        public int GetTamanio()
+        {
+            return this.Tamanio;
         }
         public override String ToString()
         {

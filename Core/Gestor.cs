@@ -30,5 +30,21 @@ namespace Core
         {
             return Grafo.InsertarArco(pNombreVerticeA, pNombreVerticeB, pPeso);
         }
+        public Lista<Lugar> GetCaminoMasRapido(string pNombreVerticeA, string pNombreVerticeB)
+        {
+
+            return null;
+        }
+        public List<Lugar> GetRutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
+        {
+            Cola<Vertice<Lugar>>  ColaCaminoMinimo = Grafo.RutaMinimaDijkstra(pNombreVerticeA, pNombreVerticeB);
+            List<Lugar> ListaLugares = new List<Lugar>();
+            Iterador<Vertice<Lugar>> iterador = new Iterador<Vertice<Lugar>>(ColaCaminoMinimo.GetInicio());
+            for (Vertice<Lugar> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+            {
+                ListaLugares.Add(verticeAdyac.Info);
+            }
+            return ListaLugares;
+        }
     }
 }

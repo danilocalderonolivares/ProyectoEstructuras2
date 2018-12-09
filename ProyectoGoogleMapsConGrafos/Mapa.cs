@@ -16,23 +16,23 @@ namespace ProyectoGoogleMapsConGrafos
         //Variable gloval Gestor
         private Gestor Gestor;
         //Tabla global de almacenamiento de datos 
-        DataTable vgDataTable;
+        private DataTable vgDataTable;
         //Variable glovales de posicionamiento
-        int vgFilaSeleccionada = 0;
-        double vgLatitudInicial = 40.6473035625225;
-        double vgLongitudInicial = -104.677734375;
+        private  int vgFilaSeleccionada = 0;
+        private double vgLatitudInicial = 40.6473035625225;
+        private double vgLongitudInicial = -104.677734375;
         // Variables globales de enrutamiento
         bool vgTrazarRuta = false;
         int vgContadorIndicadoresDeRuta = 0;
         PointLatLng vgPuntoA;
         PointLatLng vgPuntoB;
-       
+        GMapMarker MarkerA;
+        GMapMarker MarkerB;
         public Mapa() 
         {  
             InitializeComponent();
             this.Gestor = Gestor.GetInstancia();
         }
-
         private void Mapa_Load(object sender, EventArgs e)
         {
             //Se crean las columnas del DataTable
@@ -86,7 +86,6 @@ namespace ProyectoGoogleMapsConGrafos
             }
             MarcartRutas();
         }
-
         private void MarcartRutas()
         {
             GMapRoute RutaObtenida;
@@ -95,30 +94,38 @@ namespace ProyectoGoogleMapsConGrafos
             {
                 if (j == 0 && i+1 < gMapControl1.Overlays[1].Markers.Count)
                 {
-                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i+1].Position }, "Ruta ubicación");
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i+1].Position }, "Ruta" + i + "" + j);
                     j++;
                     RutaObtenida.Stroke.Width = 2;
                     RutaObtenida.Stroke.Color = Color.SeaGreen;
                     gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
                     this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 1].Tag.ToString(), RutaObtenida.Distance * 1000);
-                }
-                else 
-                {
                     if (i + 2 < gMapControl1.Overlays[1].Markers.Count)
                     {
-                        RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i+2].Position }, "Ruta ubicación");
+                        RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 2].Position }, "Ruta" + i + "" + j);
                         RutaObtenida.Stroke.Width = 2;
                         RutaObtenida.Stroke.Color = Color.SeaGreen;
                         gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
-                        this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i+2].Tag.ToString(), RutaObtenida.Distance * 1000);
+                        this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 2].Tag.ToString(), RutaObtenida.Distance * 1000);
+                    }
+                }
+                else 
+                {
+                    
+                    if (i + 5 < gMapControl1.Overlays[1].Markers.Count)
+                    {
+                        RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 5].Position }, "Ruta" + i + "" + j);
+                        RutaObtenida.Stroke.Width = 2;
+                        RutaObtenida.Stroke.Color = Color.SeaGreen;
+                        gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+                        this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 5].Tag.ToString(), RutaObtenida.Distance * 1000);
                     }
                     j = 0;
                     i++;
 
                 }
-               
-
             }
+           
         }
         private void SeleccionarRegistro(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -130,7 +137,6 @@ namespace ProyectoGoogleMapsConGrafos
             txtLatitud.Text = dataGridView2.Rows[vgFilaSeleccionada].Cells[1].Value.ToString();
             txtLongitud.Text = dataGridView2.Rows[vgFilaSeleccionada].Cells[2].Value.ToString();
 
-            gMapControl1.Overlays[1].Markers[vgFilaSeleccionada].ToolTipMode = MarkerTooltipMode.Always;
             //Se posiciona mapa en el marcador
             gMapControl1.Position = gMapControl1.Overlays[1].Markers[vgFilaSeleccionada].Position;
         }
@@ -145,17 +151,18 @@ namespace ProyectoGoogleMapsConGrafos
             Marker.ToolTipText = String.Format("Ubicacion: \nLatitud: {0} \nLongitud: {1}", txtLatitud.Text, txtLongitud.Text);
             gMapControl1.Overlays[1].Markers.Add(Marker);
         }
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             //Se elimina un registro del  DataTable
             vgDataTable.Rows.RemoveAt(vgFilaSeleccionada);
         }
-
         private void btnLlegar_Click(object sender, EventArgs e)
         {
+            gMapControl1.Overlays[2].Clear();
+            gMapControl1.Overlays[3].Clear();
             this.vgTrazarRuta = true;
             btnLlegar.Enabled = false;
+            MarcartRutas();
         }
         public void CrearDireccionTrazarRuta(double pLatitud, double pLongitud)
         {
@@ -174,7 +181,6 @@ namespace ProyectoGoogleMapsConGrafos
                         //GDirections Directions;
                         //DirectionsStatusCode RutasDireccion = GMapProviders.GoogleMap.GetDirections(out Directions, this.vgPuntoA, this.vgPuntoB, false, false, false, false, false);
                         GMapRoute RutaObtenida = new GMapRoute(new List<PointLatLng> { vgPuntoA, vgPuntoB }, "Ruta ubicación");
-
                         RutaObtenida.Stroke.Width = 2;
                         RutaObtenida.Stroke.Color = Color.SeaGreen;
 
@@ -195,7 +201,6 @@ namespace ProyectoGoogleMapsConGrafos
                 }
             }
         }
-
         private void gMapControl1_OnMarkerDoubleClick(GMapMarker item, MouseEventArgs e)
         {
             //Se obtienen la longitud y la latitud  donde el usuario dio doble click
@@ -207,7 +212,6 @@ namespace ProyectoGoogleMapsConGrafos
 
             this.CrearDireccionTrazarRuta(latitud, longitud);
         }
-
         private void gMapControl1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //Se obtienen la longitud y la latitud  donde el usuario dio doble click
@@ -222,7 +226,6 @@ namespace ProyectoGoogleMapsConGrafos
             this.CrearDireccionTrazarRuta(latitud, longitud);
 
         }
-
         private void gMapControl1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
             if (this.vgTrazarRuta)
@@ -231,32 +234,33 @@ namespace ProyectoGoogleMapsConGrafos
                 {
                     case 0:
                         this.vgContadorIndicadoresDeRuta++;
-                        this.vgPuntoA = item.Position;
+                        this.MarkerA = item;
                         break;
                     case 1:
                         this.vgContadorIndicadoresDeRuta++;
-                        this.vgPuntoB = item.Position;
-                        //GMapProviders.GoogleMap.ApiKey = "AIzaSyAKaUlHFCwxvkDF2Itv3twhKgW3-gYmzUA";
-                        GDirections Directions;
-                        //DirectionsStatusCode RutasDireccion = GMapProviders.GoogleMap.GetDirections(out Directions, this.vgPuntoA, this.vgPuntoB, false, false, false, false, false);
-                        GMapRoute RutaObtenida = new GMapRoute(new List<PointLatLng> { vgPuntoA, vgPuntoB }, "Ruta ubicación");
-
-                        RutaObtenida.Stroke.Width = 2;
-                        RutaObtenida.Stroke.Color = Color.Red;
-
-                        GMapOverlay CapaRutas = new GMapOverlay("Capa Ruta");
-                        CapaRutas.Routes.Add(RutaObtenida);
-                        gMapControl1.Overlays[0] = CapaRutas;
-                        label2.Text = (RutaObtenida.Distance * 1000).ToString();
-                        gMapControl1.Zoom = gMapControl1.Zoom + 1;
-                        gMapControl1.Zoom = gMapControl1.Zoom - 1;
+                        this.MarkerB = item;
+                        List<Lugar> listaCaminoMinimo = this.Gestor.GetRutaMinimaDijkstra(MarkerA.Tag.ToString(), MarkerB.Tag.ToString());
+                        MarcarRuta(listaCaminoMinimo);
                         this.vgContadorIndicadoresDeRuta = 0;
                         this.vgTrazarRuta = false;
                         btnLlegar.Enabled = true;
-
                         break;
                 }
             }
+        }
+        private void MarcarRuta(List<Lugar> listaDatos)
+        {
+            List<PointLatLng> listaDePuntosLongLati = new List<PointLatLng>();
+            for (int i = 0; i< listaDatos.Count; i++)
+            {
+                listaDePuntosLongLati.Add(new PointLatLng(listaDatos[i].GetLatitud(),listaDatos[i].GetLongitud()));
+            }
+            GMapRoute  RutaObtenida = new GMapRoute(listaDePuntosLongLati,"Camino");
+            RutaObtenida.Stroke.Width = 2;
+            gMapControl1.Overlays[2].Clear();
+            RutaObtenida.Stroke.Color = Color.Red;
+            gMapControl1.Overlays[3].Routes.Add(RutaObtenida);
+           
         }
     }
 }

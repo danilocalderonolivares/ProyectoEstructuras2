@@ -14,8 +14,8 @@ namespace Core
         private int Tamanio = 0;
         public Lista()
         {
-            this.Cabeza = new NodoL<T>();
-            this.Cabeza.SetSig(null);
+            this.Cabeza = null;
+  
         }
         public Lista(T pPato)
         {
