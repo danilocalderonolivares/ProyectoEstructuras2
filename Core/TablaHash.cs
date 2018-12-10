@@ -2,7 +2,7 @@
 
 namespace Core
 {
-    public class TablaHash <Clave, T>
+    public class TablaHash<Clave, T>
     {
         private int NumeroDeDatos;
         private int Tamanio;
@@ -24,30 +24,30 @@ namespace Core
         }
         private int Hashing1(int clave)
         {
-            return ( clave % this.Tamanio );
+            return (clave % this.Tamanio);
         }
         private int Hashing2(int clave)
         {
-            return 1+(clave % (this.Tamanio-1));
+            return 1 + (clave % (this.Tamanio - 1));
         }
-        private int DobleHashing(Clave Clave,int index)
+        private int DobleHashing(Clave Clave, int index)
         {
             int hash = Clave.GetHashCode();
             hash = Math.Abs(hash);
-            return (Hashing1(hash) + ((index * Hashing2(hash))%Tamanio));
+            return (Hashing1(hash) + ((index * Hashing2(hash)) % Tamanio));
         }
-        public bool  Insertar(Clave clave, T objeto)
+        public bool Insertar(Clave clave, T objeto)
         {
-            
-            bool result = false,estaLlenaLaTablas = true;
-            int posicion,i;
+
+            bool result = false, estaLlenaLaTablas = true;
+            int posicion, i;
             for (i = 0; i < Tamanio; i++)
             {
-                posicion = DobleHashing(clave,i);
+                posicion = DobleHashing(clave, i);
 
-                if (posicion > Tamanio-1)
+                if (posicion > Tamanio - 1)
                 {
-                    posicion -= Tamanio;     
+                    posicion -= Tamanio;
                 }
                 if (Vector[posicion] == null || Vector[posicion].GetEstado() == 0)
                 {
@@ -56,12 +56,12 @@ namespace Core
                     Vector[posicion].SetEstado(2);
                     this.NumeroDeDatos = NumeroDeDatos + 1;
                     estaLlenaLaTablas = false;
-                    result =true;
+                    result = true;
                     break;
                 }
-                else 
+                else
                 {
-                    Console.WriteLine( "\nColision en la posición : " +posicion);
+                    Console.WriteLine("\nColision en la posición : " + posicion);
                 }
             }
             if (estaLlenaLaTablas)
@@ -101,7 +101,7 @@ namespace Core
         {
             return Vector;
         }
-        public T BuscaHashPorClave( Clave pClave)
+        public T BuscaHashPorClave(Clave pClave)
         {
             bool seEncontroAlguno = false;
             int posicion, i;
@@ -115,7 +115,7 @@ namespace Core
                 }
                 if (Vector[posicion].GetClave() != null)
                 {
-                    if (pClave.GetType() == typeof(string) && Vector[posicion].GetClave().GetType() == typeof(string) &&  Vector[posicion].GetEstado() == 2)
+                    if (pClave.GetType() == typeof(string) && Vector[posicion].GetClave().GetType() == typeof(string) && Vector[posicion].GetEstado() == 2)
                     {
                         if (pClave.ToString().Equals(Vector[posicion].GetClave().ToString()))
                         {
@@ -130,7 +130,7 @@ namespace Core
             }
             if (!seEncontroAlguno)
             {
-               // "No se encontraron resultados";
+                // "No se encontraron resultados";
                 this.ToString();
             }
             return default(T);
@@ -149,8 +149,8 @@ namespace Core
         {
             int tamanio = ObtenerPrimo(this.Tamanio * 2);
             this.Tamanio = tamanio;
-            Informacion<Clave, T>[] newVector = new Informacion < Clave, T>[tamanio];
-            Vector.CopyTo(newVector,0);
+            Informacion<Clave, T>[] newVector = new Informacion<Clave, T>[tamanio];
+            Vector.CopyTo(newVector, 0);
             Vector = newVector;
             InicializarListas();
         }
@@ -191,7 +191,7 @@ namespace Core
             {
                 if (this.Vector[i] != null)
                 {
-                    msg += "FuncionHash  " + i + " de la tabla Hash  ==> " + this.Vector[i].ToString() + "\n";
+                    msg += "Funcion Hash  " + i + " de la tabla Hash  ==> " + this.Vector[i].ToString() + "\n";
 
                 }
             }

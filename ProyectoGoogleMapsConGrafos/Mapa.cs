@@ -186,5 +186,10 @@ namespace ProyectoGoogleMapsConGrafos
                 vgDataTable.Rows.Add(datos["Nombre"], datos["Latitud"],datos["Longitud"]);
             }
         }
+
+        private void gMapControl1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

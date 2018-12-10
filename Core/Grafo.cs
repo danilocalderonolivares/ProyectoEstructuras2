@@ -6,7 +6,7 @@ namespace Core
     {
         private bool Dirigido = false;
         private Arista<T>[,] MatrizArcos = new Arista<T>[8, 8];
-        private TablaHash<String, Vertice<T>>  ArregloDVertices;
+        private TablaHash<String, Vertice<T>> ArregloDVertices;
 
         public Grafo()
         {
@@ -125,7 +125,7 @@ namespace Core
                 {
                     if (MatrizArcos[index, i] != null)
                     {
-                        result += MatrizArcos[index,i].GetVertB().Nombre;
+                        result += MatrizArcos[index, i].GetVertB().Nombre;
                         result += "\n";
                     }
                 }
@@ -143,7 +143,7 @@ namespace Core
                 {
                     if (MatrizArcos[index, i] != null)
                     {
-                        ListaVerticesSucesores.InsertarAlFinal( MatrizArcos[index, i].GetVertB());
+                        ListaVerticesSucesores.InsertarAlFinal(MatrizArcos[index, i].GetVertB());
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace Core
                 {
                     if (MatrizArcos[index, i] != null)
                     {
-                        ListaVerticesPredecesores.InsertarAlFinal(MatrizArcos[i,index].GetVertA());
+                        ListaVerticesPredecesores.InsertarAlFinal(MatrizArcos[i, index].GetVertA());
                     }
                 }
             }

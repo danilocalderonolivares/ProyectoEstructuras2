@@ -31,7 +31,7 @@ namespace Core
             this.Peso = pPeso;
             this.EsVisit = false;
         }
-        public Arista(Vertice<T> pVerticeA, Vertice<T> pVerticeB, int pPeso,string pEtiqueta)
+        public Arista(Vertice<T> pVerticeA, Vertice<T> pVerticeB, int pPeso, string pEtiqueta)
         {
             this.VerticeA = pVerticeA;
             this.VerticeB = pVerticeB;
@@ -81,15 +81,15 @@ namespace Core
         }
         public override String ToString()
         {
-            return "(" + this.VerticeA.Nombre + " ----- " + (this.Peso == 0 ? "" : "" + Peso) +" "+(this.Etiqueta =="" || this.Etiqueta == null?"":this.Etiqueta) + " ----- " + this.VerticeB.Nombre + ")";
+            return "(" + this.VerticeA.Nombre + " ----- " + (this.Peso == 0 ? "" : "" + Peso) + " " + (this.Etiqueta == "" || this.Etiqueta == null ? "" : this.Etiqueta) + " ----- " + this.VerticeB.Nombre + ")";
         }
-        public  String ToString(bool pDirigido)
+        public String ToString(bool pDirigido)
         {
             if (pDirigido)
             {
-                return "(" + this.VerticeA.Nombre + " ----- "+ (this.Peso == 0 ? "" : "" + Peso) + " " + (this.Etiqueta == "" || this.Etiqueta == null ? "" : this.Etiqueta) + " ----> "  + this.VerticeB.Nombre + ")";
+                return "(" + this.VerticeA.Nombre + " ----- " + (this.Peso == 0 ? "" : "" + Peso) + " " + (this.Etiqueta == "" || this.Etiqueta == null ? "" : this.Etiqueta) + " ----> " + this.VerticeB.Nombre + ")";
             }
-            return "(" + this.VerticeA.Nombre + " ----- " + (this.Peso == 0 ? "" : "" + Peso) + " " + (this.Etiqueta == "" || this.Etiqueta == null ? "" : this.Etiqueta) + " ----- " + this.VerticeB.Nombre +")";
+            return "(" + this.VerticeA.Nombre + " ----- " + (this.Peso == 0 ? "" : "" + Peso) + " " + (this.Etiqueta == "" || this.Etiqueta == null ? "" : this.Etiqueta) + " ----- " + this.VerticeB.Nombre + ")";
         }
     }
 }

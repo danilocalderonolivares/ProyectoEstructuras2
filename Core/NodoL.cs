@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core
+﻿namespace Core
 {
-   public  class NodoL<T>
+    public class NodoL<T>
     {
         private T Info;
         private NodoL<T> Sig;
@@ -18,7 +11,7 @@ namespace Core
             this.Sig = null;
             this.Anterior = null;
         }
-        public NodoL( T info)
+        public NodoL(T info)
         {
             this.Info = info;
             this.Sig = null;
@@ -49,7 +42,7 @@ namespace Core
         }
         public void SetInfo(T nuevo)
         {
-            this.Info = nuevo; 
+            this.Info = nuevo;
         }
         public void SetSig(NodoL<T> nuevo)
         {

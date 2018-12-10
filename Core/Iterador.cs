@@ -1,10 +1,10 @@
 ﻿using System;
 namespace Core
 {
-   public  class Iterador<T>
+    public class Iterador<T>
     {
-       private NodoL<T> Nodo;
-       public  Iterador(NodoL<T> posicion)
+        private NodoL<T> Nodo;
+        public Iterador(NodoL<T> posicion)
         {
             this.Nodo = posicion;
         }
