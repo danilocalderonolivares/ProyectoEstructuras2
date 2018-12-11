@@ -31,8 +31,8 @@ namespace ProyectoGoogleMapsConGrafos
         PointLatLng vgPuntoA;
         PointLatLng vgPuntoB;
 
-        public Mapa() 
-        {  
+        public Mapa()
+        {
             InitializeComponent();
 
         }
@@ -41,7 +41,7 @@ namespace ProyectoGoogleMapsConGrafos
         {
             //Se crean las columnas del DataTable
             vgDataTable = new DataTable();
-            vgDataTable.Columns.Add(new DataColumn("Nombre",typeof( string )));
+            vgDataTable.Columns.Add(new DataColumn("Nombre", typeof(string)));
             vgDataTable.Columns.Add(new DataColumn("Latitud", typeof(double)));
             vgDataTable.Columns.Add(new DataColumn("Longitud", typeof(double)));
             //Se agregan registros(Rows) al DataTable
@@ -60,7 +60,7 @@ namespace ProyectoGoogleMapsConGrafos
             //Marcador
             vgMarkerOverlay = new GMapOverlay("Marcadores");
             GMapOverlay MarkerOverlay = new GMapOverlay("Marcador");
-            vgMarker = new GMarkerGoogle(new PointLatLng(vgLatitudInicial, vgLongitudInicial),GMarkerGoogleType.red);
+            vgMarker = new GMarkerGoogle(new PointLatLng(vgLatitudInicial, vgLongitudInicial), GMarkerGoogleType.red);
             MarkerOverlay.Markers.Add(vgMarker);
             // Se agrega el overrlay al mapa
             gMapControl1.Overlays.Add(MarkerOverlay);
@@ -82,10 +82,11 @@ namespace ProyectoGoogleMapsConGrafos
             //Se posiciona mapa en el marcador
             gMapControl1.Position = gMapControl1.Overlays[1].Markers[vgFilaSeleccionada].Position;
         }
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             //Se inserta un registro en el DataTable
-            vgDataTable.Rows.Add(txtDescripcion.Text,txtLatitud.Text,txtLongitud.Text);
+            vgDataTable.Rows.Add(txtDescripcion.Text, txtLatitud.Text, txtLongitud.Text);
 
             //Creamos el marcador para moverlo al lugar en el mapa donde le usuario dio doble click.
             vgMarker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text)), GMarkerGoogleType.green);
@@ -97,7 +98,14 @@ namespace ProyectoGoogleMapsConGrafos
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             //Se elimina un registro del  DataTable
-            vgDataTable.Rows.RemoveAt(vgFilaSeleccionada);
+            try
+            {
+                vgDataTable.Rows.RemoveAt(vgFilaSeleccionada);
+            }
+            catch
+            {
+                //Error ignorado ya que no hace falta manejarlo.
+            }
         }
 
         private void btnLlegar_Click(object sender, EventArgs e)
@@ -105,6 +113,7 @@ namespace ProyectoGoogleMapsConGrafos
             this.vgTrazarRuta = true;
             btnLlegar.Enabled = false;
         }
+
         public void CrearDireccionTrazarRuta(double pLatitud, double pLongitud)
         {
             if (this.vgTrazarRuta)
@@ -113,13 +122,12 @@ namespace ProyectoGoogleMapsConGrafos
                 {
                     case 0:
                         this.vgContadorIndicadoresDeRuta++;
-                        this.vgPuntoA = new PointLatLng(pLatitud,pLongitud);
+                        this.vgPuntoA = new PointLatLng(pLatitud, pLongitud);
                         break;
                     case 1:
                         this.vgContadorIndicadoresDeRuta++;
                         this.vgPuntoB = new PointLatLng(pLatitud, pLongitud);
                         GMapProviders.GoogleMap.ApiKey = "AIzaSyAKaUlHFCwxvkDF2Itv3twhKgW3-gYmzUA";
-                        GDirections Directions;
                         //DirectionsStatusCode RutasDireccion = GMapProviders.GoogleMap.GetDirections(out Directions, this.vgPuntoA, this.vgPuntoB, false, false, false, false, false);
                         GMapRoute RutaObtenida = new GMapRoute(new List<PointLatLng> { vgPuntoA, vgPuntoB }, "Ruta ubicación");
 
@@ -176,14 +184,14 @@ namespace ProyectoGoogleMapsConGrafos
         {
             SerializadorJson Serializador = SerializadorJson.GetInstancia();
             object[] objetosResultante = (object[])Serializador.GetDatosDelArchivoJson("Lugares");
-            for (int i = 0; i < objetosResultante.Length;i++)
+            for (int i = 0; i < objetosResultante.Length; i++)
             {
                 Dictionary<string, object> datos = (Dictionary<string, object>)objetosResultante[i];
                 vgMarker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(datos["Latitud"]), Convert.ToDouble(datos["Longitud"])), GMarkerGoogleType.green);
                 vgMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 vgMarker.ToolTipText = String.Format("Nombre lugar: {0} \nUbicacion: \nLatitud: {1} \nLongitud: {2}", datos["Nombre"], datos["Latitud"], datos["Longitud"]);
                 gMapControl1.Overlays[1].Markers.Add(vgMarker);
-                vgDataTable.Rows.Add(datos["Nombre"], datos["Latitud"],datos["Longitud"]);
+                vgDataTable.Rows.Add(datos["Nombre"], datos["Latitud"], datos["Longitud"]);
             }
         }
 
