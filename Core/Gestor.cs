@@ -37,14 +37,19 @@ namespace Core
         }
         public List<Lugar> GetRutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
         {
-            Cola<Vertice<Lugar>>  ColaCaminoMinimo = Grafo.RutaMinimaDijkstra(pNombreVerticeA, pNombreVerticeB);
-            List<Lugar> ListaLugares = new List<Lugar>();
-            Iterador<Vertice<Lugar>> iterador = new Iterador<Vertice<Lugar>>(ColaCaminoMinimo.GetInicio());
-            for (Vertice<Lugar> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+            Lista<Vertice<Lugar>>  ListaCaminoMinimo = Grafo.RutaMinimaDijkstra(pNombreVerticeA, pNombreVerticeB);
+            if (ListaCaminoMinimo != null)
             {
-                ListaLugares.Add(verticeAdyac.Info);
+                List<Lugar> ListaLugares = new List<Lugar>();
+                Iterador<Vertice<Lugar>> iterador = new Iterador<Vertice<Lugar>>(ListaCaminoMinimo.GetCabeza());
+                for (Vertice<Lugar> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+                {
+                    ListaLugares.Add(verticeAdyac.Info);
+                }
+
+                return ListaLugares;
             }
-            return ListaLugares;
+            return null;
         }
     }
 }

@@ -196,6 +196,23 @@ namespace Core
             }
             return null;
         }
+        public Lista<Vertice<T>> GetListaSucesoresNoVisitados(string pVertice)
+        {
+            int index = ArregloDVertices.GetIndex(pVertice);
+            if (index >= 0)
+            {
+                Lista<Vertice<T>> ListaVerticesSucesores = new Lista<Vertice<T>>();
+                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                {
+                    if (MatrizArcos[index, i] != null && !MatrizArcos[index, i].GetVertB().EsVisit)
+                    {
+                        ListaVerticesSucesores.InsertarAlFinal(MatrizArcos[index, i].GetVertB());
+                    }
+                }
+                return ListaVerticesSucesores;
+            }
+            return null;
+        }
         public Lista<Vertice<T>> GetListaPredecesores(string pVertice)
         {
             int index = ArregloDVertices.GetIndex(pVertice);
@@ -274,55 +291,210 @@ namespace Core
                 }
             }
         }
-        public Cola<Vertice<T>> RutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
+        public Lista<Vertice<T>> RutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
         {
-            Cola<Vertice<T>> ColaCaminoCorto = new Cola<Vertice<T>>();
-            if (this.HayPesosNegativosEnArcos())
+            if (pNombreVerticeA != pNombreVerticeB)
             {
-                return null;
-            }
-            Arista<T>[,] MatrizAristas = new Arista<T>[MatrizArcos.GetLength(0),MatrizArcos.GetLength(1)];
-            this.LimpiaVisitasVertices();
-            int[] costos = new int[ArregloDVertices.GetTamanio()];
+                if (this.HayPesosNegativosEnArcos())
+                {
+                    return null;
+                }
+                TablaHash<String, int> verticesFinales = GetTablasHashParaDijkstra();
+                TablaHash<String, int> verticesTemporales = GetTablasHashParaDijkstra();
+                string clave = null;
 
-            Lista<Vertice<T>> ListaSucesores = this.GetListaSucesores(pNombreVerticeA);
-            Vertice<T> verticeActual = null, verticeInicio = this.GetVerticePorNombre(pNombreVerticeA);
-            verticeInicio.EsVisit = true;
-            ColaCaminoCorto.EnColar(verticeInicio);
-            Arista<T> arco = null;
-            int peso = 0, costo = 0; ;
+                this.LimpiaVisitasVertices();
+                Lista<Vertice<T>> ListaAuxiliarDSucesores, ListaSucesores = this.GetListaSucesores(pNombreVerticeA);
+                Vertice<T> verticeActual = this.GetVerticePorNombre(pNombreVerticeA), verticeInicio = this.GetVerticePorNombre(pNombreVerticeA);
+                verticeInicio.EsVisit = true;
+                Arista<T> arco = null;
+                int peso = 0, costo = 0;
+                Iterador<Vertice<T>> iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
+                bool noSalir = true;
+                verticesTemporales.ActualizarDatoPorClave(pNombreVerticeA, 0);
+                verticesFinales.ActualizarDatoPorClave(pNombreVerticeA, 0);
+                while (noSalir)
+                {
+                    for (Vertice<T> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+                    {
+                        arco = GetArco(verticeActual.Nombre, verticeAdyac.Nombre);
+                        if (arco != null)
+                        {
+                            costo = (int)arco.GetPeso() + peso;
+                            if (verticesTemporales.BuscaHashPorClave(arco.GetVertB().Nombre) > costo || verticesTemporales.BuscaHashPorClave(arco.GetVertB().Nombre) == -1)
+                            {
+                                verticesTemporales.ActualizarDatoPorClave(arco.GetVertB().Nombre, costo);
+                            }
+                        }
+                    }
+                    int index = -1, auxiliar = 0;
+                    clave = null;
+                    for (int i = 0; i < verticesTemporales.GetTamanio(); i++)
+                    {
+                        clave = verticesTemporales.GetClave(i);
+                        if ((auxiliar == 0 || auxiliar > verticesTemporales.GetForIndex(i)) && (verticesTemporales.GetForIndex(i) >= 0 && clave != null))
+                        {
+                            if (!ArregloDVertices.BuscaHashPorClave(clave).EsVisit)
+                            {
+                                auxiliar = verticesTemporales.GetForIndex(i);
+                                index = i;
+                            }
+                        }
+                    }
+                    if (index != -1)
+                    {
+                        clave = verticesTemporales.GetClave(index);
+                        verticesFinales.ActualizarDatoPorIndex(index, auxiliar);
+                        verticeActual = ArregloDVertices.BuscaHashPorClave(clave);
+                        verticeActual.EsVisit = true;
+                    }
+                    else
+                    {
+                        if (DetenerAnalisis())
+                        {
+                            noSalir = false;
+                        }
+                    }
+                    ListaAuxiliarDSucesores = this.GetListaSucesoresNoVisitados(clave);
+                    if (ListaAuxiliarDSucesores.GetCabeza() != null)
+                    {
+                        ListaSucesores = ListaAuxiliarDSucesores;
+                    }
+                    peso = auxiliar;
+                    index = -1;
+                    auxiliar = 0;
+                    iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
+                }
+                Lista<Vertice<T>> ListaCaminoCorto = GetCaminoMinimo(verticesFinales, pNombreVerticeB);
+                return ListaCaminoCorto;
+            }
+            return null;
+        }
+        private TablaHash<String, int> GetTablasHashParaDijkstra()
+        {
+            TablaHash<String, int> tablasHas = new TablaHash<string, int>(ArregloDVertices.GetTamanio());
+            string clave = null;
+            for (int i = 0; i < this.ArregloDVertices.GetTamanio(); i++)
+            {
+                if (this.ArregloDVertices.GetForIndex(i) != null)
+                {
+                    clave = this.ArregloDVertices.GetForIndex(i).Nombre;
+                    tablasHas.Insertar(clave, -1);                }
+            }
+            return tablasHas;
+        }
+        private Lista<Vertice<T>> GetCaminoMinimo(TablaHash<string,int> pVerticesFinales,string pVerticeDestino)
+        {
+            Lista<Vertice<T>> ListaCaminoCorto = new Lista<Vertice<T>>();
+            ListaCaminoCorto.InsertarAlInicio(this.GetVerticePorNombre(pVerticeDestino));
+            Lista<Vertice<T>>  ListaSucesores = this.GetListaSucesores(pVerticeDestino);
             Iterador<Vertice<T>> iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
+            Vertice<T> verticeActual = this.GetVerticePorNombre(pVerticeDestino);
+            Arista<T> arco = null;
+            int pesoA, pesoB, pesoC, residuo;
             bool noSalir = true;
             while (noSalir)
             {
                 for (Vertice<T> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
                 {
-                    arco = GetArco(verticeInicio.Nombre, verticeAdyac.Nombre);
+                    arco = GetArco(verticeActual.Nombre, verticeAdyac.Nombre);
                     if (arco != null)
                     {
-                        if ((peso == 0 || peso > arco.GetPeso() + costo) && !arco.GetVertB().EsVisit || arco.GetVertB().Nombre.Equals(pNombreVerticeB))
+                        pesoA = (int)arco.GetPeso();
+                        pesoB = pVerticesFinales.BuscaHashPorClave(verticeActual.Nombre);
+                        pesoC = pVerticesFinales.BuscaHashPorClave(verticeAdyac.Nombre);
+                        residuo = pesoB - pesoA;
+                        if (residuo == pesoC || residuo == 0)
                         {
-                            peso = (int)arco.GetPeso() + costo;
-                            verticeActual = arco.GetVertB();
-                            //vIni.EsVisit = true;
-                            if (arco.GetVertB().Nombre.Equals(pNombreVerticeB))
+                            ListaCaminoCorto.InsertarAlInicio(arco.GetVertB());
+                            verticeActual = verticeAdyac;
+                            verticeAdyac = null;
+                            if (residuo == 0)
                             {
                                 noSalir = false;
                             }
                         }
                     }
                 }
-                costo = peso;
-                peso = 0;
-                verticeInicio = verticeActual;
-                verticeInicio.EsVisit = true;
-                ColaCaminoCorto.EnColar(verticeInicio);
-                ListaSucesores = this.GetListaSucesores(verticeInicio.Nombre);
+                ListaSucesores = this.GetListaSucesores(verticeActual.Nombre);
                 iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
             }
-            //ColaCaminoCorto.EnColar(this.GetVerticePorNombre(pNombreVerticeB));
-            return ColaCaminoCorto;
+           
+            return ListaCaminoCorto;
         }
+        private bool DetenerAnalisis()
+        {
+            for (int i = 0; i < ArregloDVertices.GetTamanio(); i++)
+            {
+                if (ArregloDVertices.GetForIndex(i) != null)
+                {
+                    if (!ArregloDVertices.GetForIndex(i).EsVisit)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        //public Cola<Vertice<T>> RutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
+        //{
+        //    Cola<Vertice<T>> ColaCaminoCorto = new Cola<Vertice<T>>();
+        //    if (this.HayPesosNegativosEnArcos())
+        //    {
+        //        return null;
+        //    }
+        //    this.LimpiaVisitasVertices();
+        //    Lista<Vertice<T>> ListaSucesores = this.GetListaSucesores(pNombreVerticeA);
+        //    Vertice<T> verticeActual = null, verticeInicio = this.GetVerticePorNombre(pNombreVerticeA);
+        //    verticeInicio.EsVisit = true;
+        //    ColaCaminoCorto.EnColar(verticeInicio);
+        //    Arista<T> arco = null;
+        //    int peso = 0, costo = 0;
+        //    Iterador<Vertice<T>> iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
+        //    bool noSalir = true;
+        //    while (noSalir)
+        //    {
+        //        for (Vertice<T> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+        //        {
+        //            arco = GetArco(verticeInicio.Nombre, verticeAdyac.Nombre);
+        //            if (arco != null)
+        //            {
+        //                if (arco.GetVertA().Nombre.Equals(pNombreVerticeB))
+        //                {
+        //                    noSalir = false;
+        //                }
+        //                else
+        //                {
+        //                    if ((peso == 0 || peso > arco.GetPeso() + costo) && !arco.GetVertB().EsVisit)
+        //                    {
+        //                        peso = (int)arco.GetPeso() + costo;
+        //                        verticeActual = arco.GetVertB();
+        //                        //vIni.EsVisit = true;
+        //                    }
+        //                }
+
+        //            }
+        //        }
+
+        //        verticeInicio = verticeActual;
+        //        verticeInicio.EsVisit = true;
+        //        if (peso == 0)
+        //        {
+        //            ListaSucesores = this.GetListaSucesores(ColaCaminoCorto.GetInicio().GetInfo().Nombre);
+        //            verticeInicio = ColaCaminoCorto.GetInicio().GetInfo();
+        //        }
+        //        else
+        //        {
+        //            ListaSucesores = this.GetListaSucesores(verticeInicio.Nombre);
+        //            ColaCaminoCorto.EnColar(verticeInicio);
+        //            costo = peso;
+        //        }
+        //        iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
+        //        peso = 0;
+        //    }
+        //    //ColaCaminoCorto.EnColar(this.GetVerticePorNombre(pNombreVerticeB));
+        //    return ColaCaminoCorto;
+        //}
 
     }
 }

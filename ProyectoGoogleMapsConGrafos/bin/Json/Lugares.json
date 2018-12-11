@@ -85,11 +85,6 @@
     "Latitud": 27.8390760947778
   },
   {
-    "Nombre": "PENNSYLVANIA",
-    "Longitud": -78.2666015625,
-    "Latitud": 41.2117215105479
-  },
-  {
     "Nombre": "WEST VIRGINIA",
     "Longitud": -80.859375,
     "Latitud": 38.8910328264885
@@ -99,7 +94,6 @@
     "Longitud": -89.82421875,
     "Latitud": 33.9068955512887
   },
-
   {
     "Nombre": "TEXAS",
     "Longitud": -99.404296875,
@@ -121,21 +115,10 @@
     "Latitud": 39.3342974298072
   },
   {
-    "Nombre": "NEVADA",
-    "Longitud": -119.619140625,
-    "Latitud": 39.9097362345372
-  },
-  {
     "Nombre": "WYOMING",
     "Longitud": -108.5009765625,
     "Latitud": 43.3571382221105
   },
-  {
-    "Nombre": "IDAHO",
-    "Longitud": -114.609375,
-    "Latitud": 44.0244215196593
-  },
-
   {
     "Nombre": "COLORADO",
     "Longitud": -106.7431640625,

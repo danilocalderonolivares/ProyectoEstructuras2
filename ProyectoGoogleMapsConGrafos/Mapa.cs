@@ -89,43 +89,103 @@ namespace ProyectoGoogleMapsConGrafos
         private void MarcartRutas()
         {
             GMapRoute RutaObtenida;
+            //RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[0].Position, gMapControl1.Overlays[1].Markers[1].Position }, "Ruta" );
+            //RutaObtenida.Stroke.Width = 2;
+            //RutaObtenida.Stroke.Color = Color.SeaGreen;
+            //gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+            //this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[0].Tag.ToString(), gMapControl1.Overlays[1].Markers[1].Tag.ToString(), RutaObtenida.Distance * 1000);
+
+            //RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[1].Position, gMapControl1.Overlays[1].Markers[2].Position }, "Ruta" );
+            //RutaObtenida.Stroke.Width = 2;
+            //RutaObtenida.Stroke.Color = Color.SeaGreen;
+            //gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+            //this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[1].Tag.ToString(), gMapControl1.Overlays[1].Markers[2].Tag.ToString(), RutaObtenida.Distance * 1000);
+
+            //RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[2].Position, gMapControl1.Overlays[1].Markers[3].Position }, "Ruta");
+            //RutaObtenida.Stroke.Width = 2;
+            //RutaObtenida.Stroke.Color = Color.SeaGreen;
+            //gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+            //this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[2].Tag.ToString(), gMapControl1.Overlays[1].Markers[3].Tag.ToString(), RutaObtenida.Distance * 1000);
+
+            //RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[3].Position, gMapControl1.Overlays[1].Markers[0].Position }, "Ruta");
+            //RutaObtenida.Stroke.Width = 2;
+            //RutaObtenida.Stroke.Color = Color.SeaGreen;
+            //gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+            //this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[3].Tag.ToString(), gMapControl1.Overlays[1].Markers[0].Tag.ToString(), RutaObtenida.Distance * 1000);
+
+            //RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[0].Position, gMapControl1.Overlays[1].Markers[3].Position }, "Ruta" );
+            //RutaObtenida.Stroke.Width = 2;
+            //RutaObtenida.Stroke.Color = Color.SeaGreen;
+            //gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+            //this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[0].Tag.ToString(), gMapControl1.Overlays[1].Markers[3].Tag.ToString(), RutaObtenida.Distance * 1000);
+
             //label2.Text = (RutaObtenida.Distance * 1000).ToString();
-            for (int i = 0,j = 0; i < gMapControl1.Overlays[1].Markers.Count;)
+            for (int i = 0, j = 1; j < gMapControl1.Overlays[1].Markers.Count;i++)
             {
-                if (j == 0 && i+1 < gMapControl1.Overlays[1].Markers.Count)
-                {
-                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i+1].Position }, "Ruta" + i + "" + j);
-                    j++;
+                //if (j == 0 && i + 1 < gMapControl1.Overlays[1].Markers.Count)
+                //{
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[j].Position }, "Ruta");
+                    // j++;
                     RutaObtenida.Stroke.Width = 2;
                     RutaObtenida.Stroke.Color = Color.SeaGreen;
                     gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
-                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 1].Tag.ToString(), RutaObtenida.Distance * 1000);
-                    if (i + 2 < gMapControl1.Overlays[1].Markers.Count)
-                    {
-                        RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 2].Position }, "Ruta" + i + "" + j);
-                        RutaObtenida.Stroke.Width = 2;
-                        RutaObtenida.Stroke.Color = Color.SeaGreen;
-                        gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
-                        this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 2].Tag.ToString(), RutaObtenida.Distance * 1000);
-                    }
-                }
-                else 
+                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[j].Tag.ToString(), RutaObtenida.Distance * 1000);
+                if (i + 2 < gMapControl1.Overlays[1].Markers.Count)
                 {
-                    
-                    if (i + 5 < gMapControl1.Overlays[1].Markers.Count)
-                    {
-                        RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 5].Position }, "Ruta" + i + "" + j);
-                        RutaObtenida.Stroke.Width = 2;
-                        RutaObtenida.Stroke.Color = Color.SeaGreen;
-                        gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
-                        this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 5].Tag.ToString(), RutaObtenida.Distance * 1000);
-                    }
-                    j = 0;
-                    i++;
-
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 2].Position }, "Ruta");
+                    RutaObtenida.Stroke.Width = 2;
+                    RutaObtenida.Stroke.Color = Color.SeaGreen;
+                    gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 2].Tag.ToString(), RutaObtenida.Distance * 1000);
                 }
+                if (i + 5 < gMapControl1.Overlays[1].Markers.Count)
+                {
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 5].Position }, "Ruta");
+                    RutaObtenida.Stroke.Width = 2;
+                    RutaObtenida.Stroke.Color = Color.SeaGreen;
+                    gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 5].Tag.ToString(), RutaObtenida.Distance * 1000);
+                }
+
+                if (i + 10 < gMapControl1.Overlays[1].Markers.Count)
+                {
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 10].Position }, "Ruta");
+                    RutaObtenida.Stroke.Width = 2;
+                    RutaObtenida.Stroke.Color = Color.SeaGreen;
+                    gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 10].Tag.ToString(), RutaObtenida.Distance * 1000);
+                }
+                if (i - 7 > 0)
+                {
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i - 7].Position }, "Ruta");
+                    RutaObtenida.Stroke.Width = 2;
+                    RutaObtenida.Stroke.Color = Color.SeaGreen;
+                    gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i - 7].Tag.ToString(), RutaObtenida.Distance * 1000);
+                }
+
+
+                if (i + 5 < gMapControl1.Overlays[1].Markers.Count)
+                {
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 5].Position }, "Ruta" + i + "" + j);
+                    RutaObtenida.Stroke.Width = 2;
+                    RutaObtenida.Stroke.Color = Color.SeaGreen;
+                    gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 5].Tag.ToString(), RutaObtenida.Distance * 1000);
+                }
+                if (i + 6 < gMapControl1.Overlays[1].Markers.Count)
+                {
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 6].Position }, "Ruta" + i + "" + j);
+                    RutaObtenida.Stroke.Width = 2;
+                    RutaObtenida.Stroke.Color = Color.SeaGreen;
+                    gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 6].Tag.ToString(), RutaObtenida.Distance * 1000);
+                }
+                j++;
             }
-           
+
+                //}
+
         }
         private void SeleccionarRegistro(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -240,7 +300,19 @@ namespace ProyectoGoogleMapsConGrafos
                         this.vgContadorIndicadoresDeRuta++;
                         this.MarkerB = item;
                         List<Lugar> listaCaminoMinimo = this.Gestor.GetRutaMinimaDijkstra(MarkerA.Tag.ToString(), MarkerB.Tag.ToString());
-                        MarcarRuta(listaCaminoMinimo);
+                        if (listaCaminoMinimo != null)
+                        {
+                            MarcarRuta(listaCaminoMinimo);
+                        }
+                        else
+                        {
+                            string result = "";
+                            if (MarkerA.Tag.ToString().Equals( MarkerB.Tag.ToString()))
+                            {
+                                result = "el punto de inicio y final es el mismo";
+                            }
+                            MessageBox.Show("Ocurrio un error " + result);
+                        }
                         this.vgContadorIndicadoresDeRuta = 0;
                         this.vgTrazarRuta = false;
                         btnLlegar.Enabled = true;

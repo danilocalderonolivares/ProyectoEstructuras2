@@ -70,6 +70,25 @@ namespace Core
             }
             return result;
         }
+        public bool ActualizarDatoPorClave(Clave pClave, T pDato)
+        {
+            int index = this.GetIndex(pClave);
+            if (index >=0)
+            {
+                Vector[index].SetObjeto(pDato);
+                return true;
+            }
+            return false;
+        }
+        public bool ActualizarDatoPorIndex(int pIndex, T pDato)
+        {
+            if (pIndex >=0)
+            {
+                Vector[pIndex].SetObjeto(pDato);
+                return true;
+            }
+            return false;
+        }
         public int GetIndex(Clave clave)
         {
             int posicion, i;
@@ -88,6 +107,14 @@ namespace Core
                 }
             }
             return -1;
+        }
+        public Clave GetClave(int pIndex)
+        {
+            if (pIndex > -1 && pIndex < this.Tamanio)
+            {
+                return Vector[pIndex].GetClave();
+            }
+            return default(Clave);
         }
         public T GetForIndex(int pIndex)
         {
