@@ -158,6 +158,9 @@
             // 
             // Mapa
             // 
+            this.AllowDrop = true;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(995, 458);
             this.ControlBox = false;
