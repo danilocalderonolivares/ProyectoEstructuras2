@@ -2,9 +2,9 @@
 {
     public class Lugar
     {
-        public string Nombre { get; set; }
-        public double Longitud { get; set; }
-        public double Latitud { get; set; }
+        private string Nombre;
+        private double Longitud;
+        private double Latitud;
         public Lugar()
         {
             this.Nombre = "";
@@ -15,6 +15,31 @@
         {
             this.Nombre = pNombre;
             this.Latitud = pLatitud;
+            this.Longitud = pLongitud;
+        }
+
+        public string GetNombre()
+        {
+            return this.Nombre;
+        }
+        public double GetLatitud()
+        {
+            return this.Latitud;
+        }
+        public double GetLongitud()
+        {
+            return this.Longitud;
+        }
+        public void SetNombre(string pNombre)
+        {
+            this.Nombre = pNombre;
+        }
+        public void SetLatitud(double pLatitud)
+        {
+            this.Latitud = pLatitud;
+        }
+        public void SetLongitud(double pLongitud)
+        {
             this.Longitud = pLongitud;
         }
     }

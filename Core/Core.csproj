@@ -4,8 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{94EFCD69-9A9D-460B-8789-4D316F23CE5B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{809E372B-C2C5-4C8D-8C5B-D5B6E27082D8}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <RootNamespace>Core</RootNamespace>
     <AssemblyName>Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -48,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arista.cs" />
+    <Compile Include="Cola.cs" />
     <Compile Include="Comparable.cs" />
     <Compile Include="Gestor.cs" />
     <Compile Include="Grafo.cs" />
@@ -56,7 +60,7 @@
     <Compile Include="Lista.cs" />
     <Compile Include="Lugar.cs" />
     <Compile Include="NodoL.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Pila.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializadorJson.cs" />
     <Compile Include="TablaHash.cs" />

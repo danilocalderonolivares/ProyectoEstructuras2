@@ -4,13 +4,12 @@ namespace Core
 {
     public class Lista<T>
     {
-
         private NodoL<T> Cabeza;
         private int Tamanio = 0;
         public Lista()
         {
-            this.Cabeza = new NodoL<T>();
-            this.Cabeza.SetSig(null);
+            this.Cabeza = null;
+  
         }
         public Lista(T pPato)
         {
@@ -213,7 +212,6 @@ namespace Core
             }
             return (default(T));
         }
-
         public void Vaciar()
         {
             this.Cabeza.SetSig(Cabeza);
@@ -236,7 +234,6 @@ namespace Core
             }
             return default(T);
         }
-
         public void Set(int i, T dato)
         {
             try
@@ -261,14 +258,16 @@ namespace Core
         public bool EsVacia()
         {
             return (Cabeza == null || this.Tamanio == 0);
-        }
+
+        } 
+
 
         public bool Esta(T info)
         {
             return (this.GetIndice(info) != -1);
         }
 
-        public NodoL<T> ElimiAlFinal()
+        public  NodoL<T> ElimiAlFinal()
         {
 
             NodoL<T> aux, eliminado = null;
@@ -335,7 +334,6 @@ namespace Core
         }
         public override String ToString()
         {
-
             string valores = "";
             int cont = 0;
             NodoL<T> aux;
@@ -343,7 +341,6 @@ namespace Core
             valores = "Longitud : " + this.GetTamanio() + "\n";
             while (this.GetTamanio() > cont)
             {
-
                 valores = valores + "\n           Dato : " + aux.GetInfo() + ", Nodo: " + aux.GetHashCode() + " \n";
                 aux = aux.GetSig();
                 cont++;
@@ -378,7 +375,9 @@ namespace Core
             {
 
                 if (x.GetInfo().Equals(dato))
+                {
                     return (i);
+                }
                 i++;
             }
             return (-1);
