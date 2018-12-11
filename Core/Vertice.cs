@@ -15,7 +15,6 @@
             this.Info = pInfo;
             this.EsVisit = false;
         }
-
         public Vertice(string pNombre,T pInfo)
         {
             this.Nombre = pNombre;

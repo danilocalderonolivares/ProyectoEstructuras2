@@ -4,22 +4,19 @@ namespace Core
 {
     public class Grafo<T>
     {
-        private bool Dirigido = false;
-
-        private Arista<T>[,] MatrizArcos;
+        private bool EsDirigido = false;
+        private Arista<T>[,] MatrizDAdyacencias;
         private TablaHash<String, Vertice<T>>  ArregloDVertices;
-
-
         public Grafo()
         {
             ArregloDVertices = new TablaHash<String, Vertice<T>>(40);
-            MatrizArcos = new Arista<T>[TablaHash<String, Vertice<T>>.ObtenerPrimo(40), TablaHash<String, Vertice<T>>.ObtenerPrimo(40)];
+            MatrizDAdyacencias = new Arista<T>[TablaHash<String, Vertice<T>>.ObtenerPrimo(40), TablaHash<String, Vertice<T>>.ObtenerPrimo(40)];
         }
         public Grafo(bool pDirigido)
         {
-            this.Dirigido = pDirigido;
+            this.EsDirigido = pDirigido;
             ArregloDVertices = new TablaHash<String, Vertice<T>>(40);
-            MatrizArcos = new Arista<T>[TablaHash<String, Vertice<T>>.ObtenerPrimo(40), TablaHash<String, Vertice<T>>.ObtenerPrimo(40)];
+            MatrizDAdyacencias = new Arista<T>[TablaHash<String, Vertice<T>>.ObtenerPrimo(40), TablaHash<String, Vertice<T>>.ObtenerPrimo(40)];
         }
         public  bool InsertaVertice(string pNombre, T pInformacion)
         {
@@ -36,11 +33,11 @@ namespace Core
         }
         public bool GetDirigido()
         {
-            return this.Dirigido;
+            return this.EsDirigido;
         }
         public void SetDirigido(bool pDirigido)
         {
-            this.Dirigido = pDirigido;
+            this.EsDirigido = pDirigido;
         }
 
         private void CrearRelacion(string pVerticeA, string pVerticeB, double pPeso = 0)
@@ -50,10 +47,10 @@ namespace Core
             indexB = ArregloDVertices.GetIndex(pVerticeB);
             if (indexA >= 0 && indexB >= 0)
             {
-                MatrizArcos[indexA, indexB] = new Arista<T>(ArregloDVertices.BuscaHashPorClave(pVerticeA), ArregloDVertices.BuscaHashPorClave(pVerticeB), pPeso);
-                if (!Dirigido)
+                MatrizDAdyacencias[indexA, indexB] = new Arista<T>(ArregloDVertices.BuscaHashPorClave(pVerticeA), ArregloDVertices.BuscaHashPorClave(pVerticeB), pPeso);
+                if (!EsDirigido)
                 {
-                    MatrizArcos[indexB, indexA] = new Arista<T>(ArregloDVertices.BuscaHashPorClave(pVerticeB), ArregloDVertices.BuscaHashPorClave(pVerticeA), pPeso);
+                    MatrizDAdyacencias[indexB, indexA] = new Arista<T>(ArregloDVertices.BuscaHashPorClave(pVerticeB), ArregloDVertices.BuscaHashPorClave(pVerticeA), pPeso);
                 }
 
             }
@@ -66,7 +63,7 @@ namespace Core
             index2 = ArregloDVertices.GetIndex(pVertice2);
             if (index1 >= 0 && index2 >= 0)
             {
-                if (MatrizArcos[index1, index2] != null)
+                if (MatrizDAdyacencias[index1, index2] != null)
                 {
                     siExiste = true;
                 }
@@ -80,9 +77,9 @@ namespace Core
             index2 = ArregloDVertices.GetIndex(pVertice2);
             if (index1 >= 0 && index2 >= 0)
             {
-                if (MatrizArcos[index1, index2] != null)
+                if (MatrizDAdyacencias[index1, index2] != null)
                 {
-                    return MatrizArcos[index1, index2];
+                    return MatrizDAdyacencias[index1, index2];
                 }
             }
             return null;
@@ -131,13 +128,13 @@ namespace Core
         private string MostrarArcos()
         {
             string result = "";
-            for (int i = 0; i < MatrizArcos.GetLength(0); i++)
+            for (int i = 0; i < MatrizDAdyacencias.GetLength(0); i++)
             {
-                for (int j = 0; j < MatrizArcos.GetLength(1); j++)
+                for (int j = 0; j < MatrizDAdyacencias.GetLength(1); j++)
                 {
-                    if (MatrizArcos[i, j] != null)
+                    if (MatrizDAdyacencias[i, j] != null)
                     {
-                        result += MatrizArcos[i, j].ToString(this.Dirigido);
+                        result += MatrizDAdyacencias[i, j].ToString(this.EsDirigido);
                     }
                 }
                 result += "\n";
@@ -151,11 +148,11 @@ namespace Core
             int index = ArregloDVertices.GetIndex(pVertice);
             if (index >= 0)
             {
-                for (int i = 0; i < MatrizArcos.GetLength(0); i++)
+                for (int i = 0; i < MatrizDAdyacencias.GetLength(0); i++)
                 {
-                    if (MatrizArcos[i, index] != null)
+                    if (MatrizDAdyacencias[i, index] != null)
                     {
-                        result += MatrizArcos[i, index].GetVertA().Nombre;
+                        result += MatrizDAdyacencias[i, index].GetVertA().Nombre;
                         result += "\n";
                     }
                 }
@@ -169,11 +166,11 @@ namespace Core
             int index = ArregloDVertices.GetIndex(pVertice);
             if (index >= 0)
             {
-                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                for (int i = 0; i < MatrizDAdyacencias.GetLength(1); i++)
                 {
-                    if (MatrizArcos[index, i] != null)
+                    if (MatrizDAdyacencias[index, i] != null)
                     {
-                        result += MatrizArcos[index, i].GetVertB().Nombre;
+                        result += MatrizDAdyacencias[index, i].GetVertB().Nombre;
                         result += "\n";
                     }
                 }
@@ -187,28 +184,28 @@ namespace Core
             if (index >= 0)
             {
                 Lista<Vertice<T>> ListaVerticesSucesores = new Lista<Vertice<T>>();
-                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                for (int i = 0; i < MatrizDAdyacencias.GetLength(1); i++)
                 {
-                    if (MatrizArcos[index, i] != null)
+                    if (MatrizDAdyacencias[index, i] != null)
                     {
-                        ListaVerticesSucesores.InsertarAlFinal(MatrizArcos[index, i].GetVertB());
+                        ListaVerticesSucesores.InsertarAlFinal(MatrizDAdyacencias[index, i].GetVertB());
                     }
                 }
                 return ListaVerticesSucesores;
             }
             return null;
         }
-        public Lista<Vertice<T>> GetListaSucesoresNoVisitados(string pVertice)
+        private Lista<Vertice<T>> GetListaSucesoresNoVisitados(string pVertice)
         {
             int index = ArregloDVertices.GetIndex(pVertice);
             if (index >= 0)
             {
                 Lista<Vertice<T>> ListaVerticesSucesores = new Lista<Vertice<T>>();
-                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                for (int i = 0; i < MatrizDAdyacencias.GetLength(1); i++)
                 {
-                    if (MatrizArcos[index, i] != null && !MatrizArcos[index, i].GetVertB().EsVisit)
+                    if (MatrizDAdyacencias[index, i] != null && !MatrizDAdyacencias[index, i].GetVertB().EsVisit)
                     {
-                        ListaVerticesSucesores.InsertarAlFinal(MatrizArcos[index, i].GetVertB());
+                        ListaVerticesSucesores.InsertarAlFinal(MatrizDAdyacencias[index, i].GetVertB());
                     }
                 }
                 return ListaVerticesSucesores;
@@ -221,11 +218,11 @@ namespace Core
             if (index >= 0)
             {
                 Lista<Vertice<T>> ListaVerticesPredecesores = new Lista<Vertice<T>>();
-                for (int i = 0; i < MatrizArcos.GetLength(1); i++)
+                for (int i = 0; i < MatrizDAdyacencias.GetLength(1); i++)
                 {
-                    if (MatrizArcos[index, i] != null)
+                    if (MatrizDAdyacencias[index, i] != null)
                     {
-                        ListaVerticesPredecesores.InsertarAlFinal(MatrizArcos[i, index].GetVertA());
+                        ListaVerticesPredecesores.InsertarAlFinal(MatrizDAdyacencias[i, index].GetVertA());
                     }
                 }
                 return ListaVerticesPredecesores;
@@ -244,19 +241,19 @@ namespace Core
         public string MostrarMatrizDAdyacencias()
         {
             string result = "", fila = "";
-            for (int i = 0; i < MatrizArcos.GetLength(0); i++)
+            for (int i = 0; i < MatrizDAdyacencias.GetLength(0); i++)
             {
                 result += ArregloDVertices.GetForIndex(i).Nombre + "|";
                 fila += "\t" + ArregloDVertices.GetForIndex(i).Nombre;
-                for (int j = 0; j < MatrizArcos.GetLength(1); j++)
+                for (int j = 0; j < MatrizDAdyacencias.GetLength(1); j++)
                 {
-                    if (MatrizArcos[i, j] == null)
+                    if (MatrizDAdyacencias[i, j] == null)
                     {
                         result += "\tNULL";
                     }
                     else
                     {
-                        result += "\t" + MatrizArcos[i, j].GetPeso();
+                        result += "\t" + MatrizDAdyacencias[i, j].GetPeso();
                     }
                 }
                 result += "\n";
@@ -268,13 +265,13 @@ namespace Core
         }
         private bool HayPesosNegativosEnArcos()
         {
-            for (int i = 0; i < MatrizArcos.GetLength(0); i++)
+            for (int i = 0; i < MatrizDAdyacencias.GetLength(0); i++)
             {
-                for (int j = 0; j < MatrizArcos.GetLength(1); j++)
+                for (int j = 0; j < MatrizDAdyacencias.GetLength(1); j++)
                 {
-                    if (MatrizArcos[i, j]!= null )
+                    if (MatrizDAdyacencias[i, j]!= null )
                     {
-                        if (MatrizArcos[i, j].GetPeso() < 0)
+                        if (MatrizDAdyacencias[i, j].GetPeso() < 0)
                         {
                             return true;
                         }
@@ -295,7 +292,7 @@ namespace Core
         }
         public Lista<Vertice<T>> RutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
         {
-            if (pNombreVerticeA != pNombreVerticeB)
+            if (pNombreVerticeA != pNombreVerticeB && !EsDirigido)
             {
                 if (this.HayPesosNegativosEnArcos())
                 {
@@ -438,65 +435,5 @@ namespace Core
             }
             return true;
         }
-        //public Cola<Vertice<T>> RutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
-        //{
-        //    Cola<Vertice<T>> ColaCaminoCorto = new Cola<Vertice<T>>();
-        //    if (this.HayPesosNegativosEnArcos())
-        //    {
-        //        return null;
-        //    }
-        //    this.LimpiaVisitasVertices();
-        //    Lista<Vertice<T>> ListaSucesores = this.GetListaSucesores(pNombreVerticeA);
-        //    Vertice<T> verticeActual = null, verticeInicio = this.GetVerticePorNombre(pNombreVerticeA);
-        //    verticeInicio.EsVisit = true;
-        //    ColaCaminoCorto.EnColar(verticeInicio);
-        //    Arista<T> arco = null;
-        //    int peso = 0, costo = 0;
-        //    Iterador<Vertice<T>> iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
-        //    bool noSalir = true;
-        //    while (noSalir)
-        //    {
-        //        for (Vertice<T> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
-        //        {
-        //            arco = GetArco(verticeInicio.Nombre, verticeAdyac.Nombre);
-        //            if (arco != null)
-        //            {
-        //                if (arco.GetVertA().Nombre.Equals(pNombreVerticeB))
-        //                {
-        //                    noSalir = false;
-        //                }
-        //                else
-        //                {
-        //                    if ((peso == 0 || peso > arco.GetPeso() + costo) && !arco.GetVertB().EsVisit)
-        //                    {
-        //                        peso = (int)arco.GetPeso() + costo;
-        //                        verticeActual = arco.GetVertB();
-        //                        //vIni.EsVisit = true;
-        //                    }
-        //                }
-
-        //            }
-        //        }
-
-        //        verticeInicio = verticeActual;
-        //        verticeInicio.EsVisit = true;
-        //        if (peso == 0)
-        //        {
-        //            ListaSucesores = this.GetListaSucesores(ColaCaminoCorto.GetInicio().GetInfo().Nombre);
-        //            verticeInicio = ColaCaminoCorto.GetInicio().GetInfo();
-        //        }
-        //        else
-        //        {
-        //            ListaSucesores = this.GetListaSucesores(verticeInicio.Nombre);
-        //            ColaCaminoCorto.EnColar(verticeInicio);
-        //            costo = peso;
-        //        }
-        //        iterador = new Iterador<Vertice<T>>(ListaSucesores.GetCabeza());
-        //        peso = 0;
-        //    }
-        //    //ColaCaminoCorto.EnColar(this.GetVerticePorNombre(pNombreVerticeB));
-        //    return ColaCaminoCorto;
-        //}
-
     }
 }
