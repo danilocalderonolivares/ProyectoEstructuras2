@@ -11,15 +11,15 @@ namespace Core
         public TablaHash()
         {
             this.NumeroDeDatos = 0;
-            this.Tamanio = 8;
+            this.Tamanio = ObtenerPrimo(40);
             this.Vector = new Informacion<Clave, T>[this.Tamanio];
             this.InicializarListas();
         }
         public TablaHash(int tamanio)
         {
             this.NumeroDeDatos = 0;
-            this.Tamanio = tamanio;
-            this.Vector = new Informacion<Clave, T>[tamanio];
+            this.Tamanio = ObtenerPrimo(tamanio);
+            this.Vector = new Informacion<Clave, T>[this.Tamanio];
             this.InicializarListas();
         }
         private int Hashing1(int clave)
@@ -91,7 +91,7 @@ namespace Core
         }
         public T GetForIndex(int pIndex)
         {
-            if (pIndex > Tamanio - 1 && pIndex < this.Tamanio)
+            if (pIndex > - 1 && pIndex < this.Tamanio)
             {
                 return Vector[pIndex].GetInformacion();
             }
@@ -183,6 +183,10 @@ namespace Core
             {
                 return true;
             }
+        }
+        public int GetTamanio()
+        {
+            return this.Tamanio;
         }
         public override String ToString()
         {

@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Core
 {
     public class Gestor
     {
         private static Gestor Instancia;
-        private Grafo<String> Grafo;
+        private Grafo<Lugar> Grafo;
         private Gestor()
         {
-            Grafo = new Grafo<string>(false);
+            Grafo = new Grafo<Lugar>(false);
         }
         public static Gestor GetInstancia()
         {
@@ -18,6 +22,29 @@ namespace Core
             }
             return Instancia;
         }
+        public bool InsertarVertice(string pNombre,double pLongitud,double pLatitud)
+        {
+            return Grafo.InsertaVertice(pNombre,new Lugar(pNombre,pLatitud,pLongitud));
+        }
+        public bool InsertarArco(string pNombreVerticeA , string pNombreVerticeB, double pPeso)
+        {
+            return Grafo.InsertarArco(pNombreVerticeA, pNombreVerticeB, pPeso);
+        }
+        public Lista<Lugar> GetCaminoMasRapido(string pNombreVerticeA, string pNombreVerticeB)
+        {
 
+            return null;
+        }
+        public List<Lugar> GetRutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
+        {
+            Cola<Vertice<Lugar>>  ColaCaminoMinimo = Grafo.RutaMinimaDijkstra(pNombreVerticeA, pNombreVerticeB);
+            List<Lugar> ListaLugares = new List<Lugar>();
+            Iterador<Vertice<Lugar>> iterador = new Iterador<Vertice<Lugar>>(ColaCaminoMinimo.GetInicio());
+            for (Vertice<Lugar> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+            {
+                ListaLugares.Add(verticeAdyac.Info);
+            }
+            return ListaLugares;
+        }
     }
 }

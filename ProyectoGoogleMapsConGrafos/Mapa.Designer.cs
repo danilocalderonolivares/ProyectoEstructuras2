@@ -49,52 +49,57 @@
             this.txtDescripcion.Location = new System.Drawing.Point(771, 362);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(267, 25);
+            this.txtDescripcion.Size = new System.Drawing.Size(40, 25);
             this.txtDescripcion.TabIndex = 1;
+            this.txtDescripcion.Visible = false;
             // 
             // txtLatitud
             // 
-            this.txtLatitud.Location = new System.Drawing.Point(771, 411);
+            this.txtLatitud.Location = new System.Drawing.Point(844, 362);
             this.txtLatitud.Multiline = true;
             this.txtLatitud.Name = "txtLatitud";
-            this.txtLatitud.Size = new System.Drawing.Size(189, 25);
+            this.txtLatitud.Size = new System.Drawing.Size(36, 25);
             this.txtLatitud.TabIndex = 3;
+            this.txtLatitud.Visible = false;
             // 
             // txtLongitud
             // 
-            this.txtLongitud.Location = new System.Drawing.Point(966, 411);
+            this.txtLongitud.Location = new System.Drawing.Point(902, 362);
             this.txtLongitud.Multiline = true;
             this.txtLongitud.Name = "txtLongitud";
-            this.txtLongitud.Size = new System.Drawing.Size(151, 25);
+            this.txtLongitud.Size = new System.Drawing.Size(42, 25);
             this.txtLongitud.TabIndex = 4;
+            this.txtLongitud.Visible = false;
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(771, 312);
+            this.btnAgregar.Location = new System.Drawing.Point(956, 364);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
             this.btnAgregar.TabIndex = 5;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Visible = false;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(852, 312);
+            this.btnEliminar.Location = new System.Drawing.Point(1034, 364);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 23);
             this.btnEliminar.TabIndex = 6;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Visible = false;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnLlegar
             // 
-            this.btnLlegar.Location = new System.Drawing.Point(933, 312);
+            this.btnLlegar.Location = new System.Drawing.Point(765, 253);
             this.btnLlegar.Name = "btnLlegar";
-            this.btnLlegar.Size = new System.Drawing.Size(75, 23);
+            this.btnLlegar.Size = new System.Drawing.Size(139, 23);
             this.btnLlegar.TabIndex = 7;
-            this.btnLlegar.Text = "Cómo llegar";
+            this.btnLlegar.Text = "Camino corto";
             this.btnLlegar.UseVisualStyleBackColor = true;
             this.btnLlegar.Click += new System.EventHandler(this.btnLlegar_Click);
             // 
@@ -106,24 +111,27 @@
             this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "Nombre lugar";
+            this.label4.Visible = false;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(768, 395);
+            this.label5.Location = new System.Drawing.Point(841, 346);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(39, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "Latitud";
+            this.label5.Visible = false;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(963, 395);
+            this.label6.Location = new System.Drawing.Point(899, 346);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "Longitud";
+            this.label6.Visible = false;
             // 
             // dataGridView2
             // 
@@ -138,11 +146,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(772, 291);
+            this.label1.Location = new System.Drawing.Point(953, 346);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(109, 13);
             this.label1.TabIndex = 14;
             this.label1.Text = "Distancia en metros : ";
+            this.label1.Visible = false;
             // 
             // label2
             // 
@@ -177,7 +186,7 @@
             this.gMapControl1.Size = new System.Drawing.Size(725, 424);
             this.gMapControl1.TabIndex = 16;
             this.gMapControl1.Zoom = 0D;
-            this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load);
+            this.gMapControl1.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapControl1_OnMarkerClick);
             this.gMapControl1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.gMapControl1_MouseDoubleClick);
             // 
             // Mapa
