@@ -17,7 +17,6 @@
             this.Latitud = pLatitud;
             this.Longitud = pLongitud;
         }
-
         public string GetNombre()
         {
             return this.Nombre;

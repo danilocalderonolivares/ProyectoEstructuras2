@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Core
 {
@@ -46,6 +47,15 @@ namespace Core
                 return ListaLugares;
             }
             return null;
+        }
+        public Lugar BuscarVerticePorNombre(string pNombreVertice)
+        {
+            Vertice<Lugar> verticeEncontrado = Grafo.GetVeticePorNombre(pNombreVertice);
+            if (verticeEncontrado == null)
+            {
+                return null;
+            }
+            return verticeEncontrado.Info;
         }
     }
 }
