@@ -150,6 +150,7 @@ namespace ProyectoGoogleMapsConGrafos
 
         private void btnLlegar_Click(object sender, EventArgs e)
         {
+            gMapControl1.Zoom = 7;
             gMapControl1.Overlays[2].Clear();
             gMapControl1.Overlays[3].Clear();
             this.vgTrazarRuta = true;
