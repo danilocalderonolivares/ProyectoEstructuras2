@@ -334,5 +334,10 @@ namespace ProyectoGoogleMapsConGrafos
             gMapControl1.Overlays[3].Routes.Add(RutaObtenida);
            
         }
+
+        private void gMapControl1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

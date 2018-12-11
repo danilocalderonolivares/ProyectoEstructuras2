@@ -2,7 +2,7 @@
 
 namespace Core
 {
-   public  class Informacion<Clave, T> : Object
+    public class Informacion<Clave, T> : Object
     {
         private T Information;
         private Clave clave;
@@ -39,7 +39,7 @@ namespace Core
             return this.clave;
         }
 
-        public bool SetClave( Clave pClave)
+        public bool SetClave(Clave pClave)
         {
             if (pClave != null)
             {
@@ -60,23 +60,23 @@ namespace Core
 
         public bool SetEstado(int estado)
         {
-            if (estado >= 0 && estado <=2 )
+            if (estado >= 0 && estado <= 2)
             {
                 this.Estado = estado;
                 return true;
             }
-            throw new Exception("El estado del componete debe estar entre 0 y 2 donde 0 es nulo, 1 es borrado y 2 en uso");
+            throw new Exception("El estado del componente debe estar entre 0 y 2 donde 0 es nulo, 1 es borrado y 2 en uso");
         }
 
         public override int GetHashCode()
-        { 
+        {
             return this.GetHashCode();
         }
         public override String ToString()
         {
             if (this.Estado == 2)
             {
-                return ("clave: " + this.clave.ToString() + " del Objeto: " + this.Information.ToString() + "\n");
+                return ("Clave: " + this.clave.ToString() + " del Objeto: " + this.Information.ToString() + "\n");
             }
             return "";
         }
@@ -84,7 +84,7 @@ namespace Core
         {
             if (obj == null)
             {
-                throw new Exception("El objeto insertado no puede esta nulo");
+                throw new Exception("El objeto insertado no puede estar nulo");
             }
             Informacion<Clave, T> x = (Informacion<Clave, T>)obj;
             return (this.clave.Equals(x.GetClave()));

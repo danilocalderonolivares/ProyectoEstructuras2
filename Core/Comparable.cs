@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core
 {
     public class Comparable : IComparer
     {
-        private  static Comparable Instancia;
+        private static Comparable Instancia;
         private Comparable()
         {
         }
-        public static  Comparable GetInstancia()
+        public static Comparable GetInstancia()
         {
             if (Instancia == null)
             {

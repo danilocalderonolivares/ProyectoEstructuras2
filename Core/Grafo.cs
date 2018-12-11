@@ -5,8 +5,10 @@ namespace Core
     public class Grafo<T>
     {
         private bool Dirigido = false;
+
         private Arista<T>[,] MatrizArcos;
         private TablaHash<String, Vertice<T>>  ArregloDVertices;
+
 
         public Grafo()
         {
@@ -171,7 +173,7 @@ namespace Core
                 {
                     if (MatrizArcos[index, i] != null)
                     {
-                        result += MatrizArcos[index,i].GetVertB().Nombre;
+                        result += MatrizArcos[index, i].GetVertB().Nombre;
                         result += "\n";
                     }
                 }
@@ -189,7 +191,7 @@ namespace Core
                 {
                     if (MatrizArcos[index, i] != null)
                     {
-                        ListaVerticesSucesores.InsertarAlFinal( MatrizArcos[index, i].GetVertB());
+                        ListaVerticesSucesores.InsertarAlFinal(MatrizArcos[index, i].GetVertB());
                     }
                 }
                 return ListaVerticesSucesores;
@@ -223,7 +225,7 @@ namespace Core
                 {
                     if (MatrizArcos[index, i] != null)
                     {
-                        ListaVerticesPredecesores.InsertarAlFinal(MatrizArcos[i,index].GetVertA());
+                        ListaVerticesPredecesores.InsertarAlFinal(MatrizArcos[i, index].GetVertA());
                     }
                 }
                 return ListaVerticesPredecesores;

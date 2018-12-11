@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Core
 {
@@ -26,13 +20,13 @@ namespace Core
         {
             return Cabeza;
         }
-        public  bool InsertarAlInicio(T pDato)
+        public bool InsertarAlInicio(T pDato)
         {
             bool result = false;
             NodoL<T> newNode = new NodoL<T>(pDato);
             if (this.EsVacia())
             {
-               this.Cabeza = newNode;
+                this.Cabeza = newNode;
                 result = true;
             }
             else
@@ -107,13 +101,13 @@ namespace Core
 
             return result;
         }
-        public  bool InsertarOrdenado(T pDato)
+        public bool InsertarOrdenado(T pDato)
         {
             bool result = false;
-            NodoL<T> newNode = new NodoL<T>(pDato,null);
+            NodoL<T> newNode = new NodoL<T>(pDato, null);
             if (this.EsVacia())
             {
-                this.Cabeza =  newNode;
+                this.Cabeza = newNode;
                 result = true;
             }
             else
@@ -128,7 +122,7 @@ namespace Core
                 }
                 else
                 {
-                    while ((temp.GetSig() != null) && (Comparable.GetInstancia().Compare(temp.GetSig().GetInfo(), pDato) < 0 ))
+                    while ((temp.GetSig() != null) && (Comparable.GetInstancia().Compare(temp.GetSig().GetInfo(), pDato) < 0))
                     {
                         temp = temp.GetSig();
                     }
@@ -137,7 +131,7 @@ namespace Core
                     result = true;
                 }
             }
-            int longt =  this.GetTamanio();
+            int longt = this.GetTamanio();
             longt = longt + 1;
             this.Tamanio = longt;
             return result;
@@ -170,7 +164,7 @@ namespace Core
                 rta = Comparable.GetInstancia().Compare(Cabeza.GetInfo(), pDato);
                 if (rta == 0 && i == 0)
                 {
-                   this.Cabeza =  temp.GetSig();
+                    this.Cabeza = temp.GetSig();
                     longit = longit - 1;
                     this.Tamanio = longit;
                 }
@@ -214,7 +208,7 @@ namespace Core
             }
             catch (Exception ex)
             {
-               throw ex;
+                throw ex;
             }
             return (default(T));
         }
@@ -264,15 +258,19 @@ namespace Core
         public bool EsVacia()
         {
             return (Cabeza == null || this.Tamanio == 0);
+
         } 
+
+
         public bool Esta(T info)
         {
             return (this.GetIndice(info) != -1);
         }
+
         public  NodoL<T> ElimiAlFinal()
         {
 
-            NodoL<T> aux,eliminado = null;
+            NodoL<T> aux, eliminado = null;
             int longt = this.GetTamanio();
             if (longt > 0)
             {
@@ -303,9 +301,9 @@ namespace Core
         }
         public bool EnlazarLista(Lista<T> lista)
         {
-            return Enlazar( this.GetCabeza(), lista);
+            return Enlazar(this.GetCabeza(), lista);
         }
-        private bool Enlazar(NodoL<T> cabeza,Lista<T> lista)
+        private bool Enlazar(NodoL<T> cabeza, Lista<T> lista)
         {
             bool result = false;
             if (cabeza.GetSig() is null)
@@ -325,7 +323,7 @@ namespace Core
             {
                 return null;
             }
-            Object[] vector= new Object[this.GetTamanio()];
+            Object[] vector = new Object[this.GetTamanio()];
             NodoL<T> actual = this.Cabeza;
             for (int i = 0; i < this.GetTamanio(); i++)
             {
@@ -340,7 +338,7 @@ namespace Core
             int cont = 0;
             NodoL<T> aux;
             aux = this.Cabeza;
-            valores = "Longitud : " + this.GetTamanio()+ "\n";
+            valores = "Longitud : " + this.GetTamanio() + "\n";
             while (this.GetTamanio() > cont)
             {
                 valores = valores + "\n           Dato : " + aux.GetInfo() + ", Nodo: " + aux.GetHashCode() + " \n";
@@ -359,7 +357,7 @@ namespace Core
             else
             {
                 NodoL<T> x = this.Cabeza;
-                for (int j = 0 ; j <i && x.GetSig() != null; j++)
+                for (int j = 0; j < i && x.GetSig() != null; j++)
                 {
                     x = x.GetSig();
                 }
@@ -385,5 +383,5 @@ namespace Core
             return (-1);
         }
     }
- 
+
 }

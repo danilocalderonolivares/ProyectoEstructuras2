@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core
+﻿namespace Core
 {
-   public  class Lugar
+    public class Lugar
     {
         private string Nombre;
         private double Longitud;
@@ -17,7 +11,7 @@ namespace Core
             this.Latitud = 0;
             this.Longitud = 0;
         }
-        public Lugar(string pNombre,double pLatitud,double pLongitud)
+        public Lugar(string pNombre, double pLatitud, double pLongitud)
         {
             this.Nombre = pNombre;
             this.Latitud = pLatitud;

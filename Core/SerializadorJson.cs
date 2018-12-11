@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Web.Script.Serialization;
 
@@ -10,7 +9,7 @@ namespace Core
     {
         private static SerializadorJson Instancia;
         private object Data;
-        private string RutaDirecctorio; 
+        private string RutaDirecctorio;
         private JavaScriptSerializer Serializer = new JavaScriptSerializer();
         private SerializadorJson()
         {
@@ -49,7 +48,7 @@ namespace Core
             }
             return null;
         }
-        public string  CrearArchivoJsonApartirDeUnObjeto(object pObjeto, string pNombreArchivo)
+        public string CrearArchivoJsonApartirDeUnObjeto(object pObjeto, string pNombreArchivo)
         {
             string path = @"" + this.RutaDirecctorio + @"\" + pNombreArchivo + ".json";
             if (pNombreArchivo.Trim() != "" && !File.Exists(path))
@@ -58,7 +57,7 @@ namespace Core
                 File.WriteAllText(path, salidaJSON);
                 return path;
             }
-            return "No se logro crear el archivo Json!. Verique el nombre del archivo puede que ya exista.";
+            return "No se logro crear el archivo Json!. Verique el nombre del archivo, puede que ya exista.";
         }
         public string ActualizarArchivoJsonApartirDeUnObjeto(Object pObjeto, string pNombreArchivo)
         {
@@ -69,7 +68,7 @@ namespace Core
                 File.WriteAllText(path, salidaJSON);
                 return path;
             }
-            return "No se logro actualizar el archivo Json!. Verique el nombre del archivo puede que no exista.";
+            return "No se logro actualizar el archivo Json!. Verique el nombre del archivo, puede que no exista.";
         }
     }
 }
