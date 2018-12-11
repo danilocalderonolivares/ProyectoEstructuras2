@@ -175,7 +175,7 @@ namespace ProyectoGoogleMapsConGrafos
                         Marker.ToolTip = new GMapRoundedToolTip (Marker);
                         ToolTipBackColor.GetType();
                         Marker.ToolTip.Stroke.Width = 2;
-                        Marker.ToolTip.Stroke.Color = Color.Red;
+                        Marker.ToolTip.Stroke.Color = Color.Black;
                         Marker.ToolTip.TextPadding = new Size(5, 5);
                         Marker.ToolTip.Font = f;
                         Marker.ToolTip.Fill = ToolTipBackColor;
@@ -196,7 +196,7 @@ namespace ProyectoGoogleMapsConGrafos
                             Marker.ToolTipMode = MarkerTooltipMode.Always;
                             Marker.ToolTip = new GMapRoundedToolTip(Marker);
                             ToolTipBackColor.GetType();
-                            Marker.ToolTip.Stroke.Color = Color.Red;
+                            Marker.ToolTip.Stroke.Color = Color.Black;
                             Marker.ToolTip.TextPadding = new Size(5,5);
                             Marker.ToolTip.Font = f;
                             Marker.ToolTip.Fill = ToolTipBackColor;
@@ -273,6 +273,15 @@ namespace ProyectoGoogleMapsConGrafos
         {
             gMapControl1.Position = new PointLatLng(this.vgLatitudInicial, this.vgLongitudInicial);
             gMapControl1.Zoom = 7;
+        }
+
+        private void btnCerraApp_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Desea salir de la aplicación?","Salir ", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if ( result == DialogResult.OK)
+            {
+                this.Close();
+            }
         }
     }
 }
