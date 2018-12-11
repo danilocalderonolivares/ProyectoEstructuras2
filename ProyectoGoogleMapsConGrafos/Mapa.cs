@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Collections.Generic;
 using Core;
+using static Core.Gestor;
 
 namespace ProyectoGoogleMapsConGrafos
 {
@@ -28,11 +29,13 @@ namespace ProyectoGoogleMapsConGrafos
         PointLatLng vgPuntoB;
         GMapMarker MarkerA;
         GMapMarker MarkerB;
+        
         public Mapa() 
         {  
             InitializeComponent();
             this.Gestor = Gestor.GetInstancia();
         }
+
         private void Mapa_Load(object sender, EventArgs e)
         {
             //Se crean las columnas del DataTable
@@ -68,6 +71,7 @@ namespace ProyectoGoogleMapsConGrafos
             gMapControl1.Overlays.Add(MarkerOverlay);
             InicializarDatos();
         }
+
         private void InicializarDatos()
         {
             SerializadorJson Serializador = SerializadorJson.GetInstancia();
@@ -76,6 +80,9 @@ namespace ProyectoGoogleMapsConGrafos
             for (int i = 0; i < objetosResultante.Length; i++)
             {
                 Dictionary<string, object> datos = (Dictionary<string, object>)objetosResultante[i];
+                this.Gestor.cosas.Add(new City(datos["Nombre"].ToString(), 
+                    new LatLon(Convert.ToDouble(datos["Latitud"]), Convert.ToDouble(datos["Longitud"]))));
+
                 GMarkerGoogle Marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(datos["Latitud"]), Convert.ToDouble(datos["Longitud"])), GMarkerGoogleType.green);
                 Marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 Marker.ToolTipText = String.Format("Nombre lugar: {0} \nUbicacion: \nLatitud: {1} \nLongitud: {2}", datos["Nombre"], datos["Latitud"], datos["Longitud"]);
@@ -84,49 +91,69 @@ namespace ProyectoGoogleMapsConGrafos
                 vgDataTable.Rows.Add(datos["Nombre"], datos["Latitud"], datos["Longitud"]);
                 this.Gestor.InsertarVertice(datos["Nombre"].ToString(), Convert.ToDouble(datos["Longitud"]), Convert.ToDouble(datos["Latitud"]));
             }
-            MarcartRutas();
+            //MarcartRutas();
         }
-        private void MarcartRutas()
-        {
-            GMapRoute RutaObtenida;
-            //label2.Text = (RutaObtenida.Distance * 1000).ToString();
-            for (int i = 0,j = 0; i < gMapControl1.Overlays[1].Markers.Count;)
-            {
-                if (j == 0 && i+1 < gMapControl1.Overlays[1].Markers.Count)
-                {
-                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i+1].Position }, "Ruta" + i + "" + j);
-                    j++;
-                    RutaObtenida.Stroke.Width = 2;
-                    RutaObtenida.Stroke.Color = Color.SeaGreen;
-                    gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
-                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 1].Tag.ToString(), RutaObtenida.Distance * 1000);
-                    if (i + 2 < gMapControl1.Overlays[1].Markers.Count)
-                    {
-                        RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 2].Position }, "Ruta" + i + "" + j);
-                        RutaObtenida.Stroke.Width = 2;
-                        RutaObtenida.Stroke.Color = Color.SeaGreen;
-                        gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
-                        this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 2].Tag.ToString(), RutaObtenida.Distance * 1000);
-                    }
-                }
-                else 
-                {
-                    
-                    if (i + 5 < gMapControl1.Overlays[1].Markers.Count)
-                    {
-                        RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 5].Position }, "Ruta" + i + "" + j);
-                        RutaObtenida.Stroke.Width = 2;
-                        RutaObtenida.Stroke.Color = Color.SeaGreen;
-                        gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
-                        this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 5].Tag.ToString(), RutaObtenida.Distance * 1000);
-                    }
-                    j = 0;
-                    i++;
 
-                }
-            }
-           
-        }
+        //private void MarcartRutas()
+        //{
+        //    GMapRoute RutaObtenida;
+
+        //    for (int i = 0,j = 0; i < gMapControl1.Overlays[1].Markers.Count;)
+        //    {
+        //        if (j == 0 && i+1 < gMapControl1.Overlays[1].Markers.Count)
+        //        {
+        //            RutaObtenida = new GMapRoute(new List<PointLatLng>
+        //            {
+        //                gMapControl1.Overlays[1].Markers[i].Position,
+        //                gMapControl1.Overlays[1].Markers[i+1].Position
+        //            }, "Ruta" + i + "" + j);
+
+        //            j++;
+        //            RutaObtenida.Stroke.Width = 2;
+        //            RutaObtenida.Stroke.Color = Color.SeaGreen;
+        //            gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+        //            this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), 
+        //                gMapControl1.Overlays[1].Markers[i + 1].Tag.ToString(), RutaObtenida.Distance * 1000);
+
+        //            if (i + 2 < gMapControl1.Overlays[1].Markers.Count)
+        //            {
+        //                RutaObtenida = new GMapRoute(new List<PointLatLng>
+        //                {
+        //                    gMapControl1.Overlays[1].Markers[i].Position,
+        //                    gMapControl1.Overlays[1].Markers[i + 2].Position
+        //                }, "Ruta" + i + "" + j);
+
+        //                RutaObtenida.Stroke.Width = 2;
+        //                RutaObtenida.Stroke.Color = Color.SeaGreen;
+        //                gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+        //                this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 2].Tag.ToString(), RutaObtenida.Distance * 1000);
+        //            }
+        //        }
+        //        else 
+        //        {
+
+        //            if (i + 5 < gMapControl1.Overlays[1].Markers.Count)
+        //            {
+        //                RutaObtenida = new GMapRoute(new List<PointLatLng>
+        //                {
+        //                    gMapControl1.Overlays[1].Markers[i].Position,
+        //                    gMapControl1.Overlays[1].Markers[i + 5].Position
+        //                }, "Ruta" + i + "" + j);
+
+        //                RutaObtenida.Stroke.Width = 2;
+        //                RutaObtenida.Stroke.Color = Color.SeaGreen;
+        //                gMapControl1.Overlays[2].Routes.Add(RutaObtenida);
+        //                this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), 
+        //                    gMapControl1.Overlays[1].Markers[i + 5].Tag.ToString(), RutaObtenida.Distance * 1000);
+        //            }
+        //            j = 0;
+        //            i++;
+
+        //        }
+        //    }
+
+        //}
+
         private void SeleccionarRegistro(object sender, DataGridViewCellMouseEventArgs e)
         {
 
@@ -140,6 +167,7 @@ namespace ProyectoGoogleMapsConGrafos
             //Se posiciona mapa en el marcador
             gMapControl1.Position = gMapControl1.Overlays[1].Markers[vgFilaSeleccionada].Position;
         }
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             //Se inserta un registro en el DataTable
@@ -151,19 +179,23 @@ namespace ProyectoGoogleMapsConGrafos
             Marker.ToolTipText = String.Format("Ubicacion: \nLatitud: {0} \nLongitud: {1}", txtLatitud.Text, txtLongitud.Text);
             gMapControl1.Overlays[1].Markers.Add(Marker);
         }
+
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             //Se elimina un registro del  DataTable
             vgDataTable.Rows.RemoveAt(vgFilaSeleccionada);
         }
+
         private void btnLlegar_Click(object sender, EventArgs e)
         {
             gMapControl1.Overlays[2].Clear();
             gMapControl1.Overlays[3].Clear();
             this.vgTrazarRuta = true;
-            btnLlegar.Enabled = false;
-            MarcartRutas();
+            //btnLlegar.Enabled = false;
+            //MarcartRutas();
+            this.Gestor.dijkstra("WANCHINGTON", "VERMON");
         }
+
         public void CrearDireccionTrazarRuta(double pLatitud, double pLongitud)
         {
             if (this.vgTrazarRuta)
@@ -201,53 +233,57 @@ namespace ProyectoGoogleMapsConGrafos
                 }
             }
         }
+
         private void gMapControl1_OnMarkerDoubleClick(GMapMarker item, MouseEventArgs e)
         {
-            //Se obtienen la longitud y la latitud  donde el usuario dio doble click
-            double latitud = item.Position.Lat;
-            double longitud = item.Position.Lng;
-            //Se escribe el los txt de latiud y longitus los datos corespondientes.
-            txtLatitud.Text = latitud.ToString();
-            txtLongitud.Text = longitud.ToString();
+            ////Se obtienen la longitud y la latitud  donde el usuario dio doble click
+            //double latitud = item.Position.Lat;
+            //double longitud = item.Position.Lng;
+            ////Se escribe el los txt de latiud y longitus los datos corespondientes.
+            //txtLatitud.Text = latitud.ToString();
+            //txtLongitud.Text = longitud.ToString();
 
-            this.CrearDireccionTrazarRuta(latitud, longitud);
+            //this.CrearDireccionTrazarRuta(latitud, longitud);
         }
+
         private void gMapControl1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            //Se obtienen la longitud y la latitud  donde el usuario dio doble click
-            double latitud = gMapControl1.FromLocalToLatLng(e.X, e.Y).Lat;
-            double longitud = gMapControl1.FromLocalToLatLng(e.X, e.Y).Lng;
-            //Se escribe el los txt de latiud y longitus los datos corespondientes.
-            txtLatitud.Text = latitud.ToString();
-            txtLongitud.Text = longitud.ToString();
-            //Creamos el marcador para moverlo al lugar en el mapa donde le usuario dio doble click.
-            gMapControl1.Overlays[0].Markers[0].Position = new PointLatLng(latitud, longitud);
-            gMapControl1.Overlays[0].Markers[0].ToolTipText = String.Format("Ubicacion: \nLatitud: {0} \nLongitud: {1}", latitud, longitud);
-            this.CrearDireccionTrazarRuta(latitud, longitud);
+            ////Se obtienen la longitud y la latitud  donde el usuario dio doble click
+            //double latitud = gMapControl1.FromLocalToLatLng(e.X, e.Y).Lat;
+            //double longitud = gMapControl1.FromLocalToLatLng(e.X, e.Y).Lng;
+            ////Se escribe el los txt de latiud y longitus los datos corespondientes.
+            //txtLatitud.Text = latitud.ToString();
+            //txtLongitud.Text = longitud.ToString();
+            ////Creamos el marcador para moverlo al lugar en el mapa donde le usuario dio doble click.
+            //gMapControl1.Overlays[0].Markers[0].Position = new PointLatLng(latitud, longitud);
+            //gMapControl1.Overlays[0].Markers[0].ToolTipText = String.Format("Ubicacion: \nLatitud: {0} \nLongitud: {1}", latitud, longitud);
+            //this.CrearDireccionTrazarRuta(latitud, longitud);
 
         }
+
         private void gMapControl1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            if (this.vgTrazarRuta)
-            {
-                switch (vgContadorIndicadoresDeRuta)
-                {
-                    case 0:
-                        this.vgContadorIndicadoresDeRuta++;
-                        this.MarkerA = item;
-                        break;
-                    case 1:
-                        this.vgContadorIndicadoresDeRuta++;
-                        this.MarkerB = item;
-                        List<Lugar> listaCaminoMinimo = this.Gestor.GetRutaMinimaDijkstra(MarkerA.Tag.ToString(), MarkerB.Tag.ToString());
-                        MarcarRuta(listaCaminoMinimo);
-                        this.vgContadorIndicadoresDeRuta = 0;
-                        this.vgTrazarRuta = false;
-                        btnLlegar.Enabled = true;
-                        break;
-                }
-            }
+            //if (this.vgTrazarRuta)
+            //{
+            //    switch (vgContadorIndicadoresDeRuta)
+            //    {
+            //        case 0:
+            //            this.vgContadorIndicadoresDeRuta++;
+            //            this.MarkerA = item;
+            //            break;
+            //        case 1:
+            //            this.vgContadorIndicadoresDeRuta++;
+            //            this.MarkerB = item;
+            //            List<Lugar> listaCaminoMinimo = this.Gestor.GetRutaMinimaDijkstra(MarkerA.Tag.ToString(), MarkerB.Tag.ToString());
+            //            MarcarRuta(listaCaminoMinimo);
+            //            this.vgContadorIndicadoresDeRuta = 0;
+            //            this.vgTrazarRuta = false;
+            //            btnLlegar.Enabled = true;
+            //            break;
+            //    }
+            //}
         }
+
         private void MarcarRuta(List<Lugar> listaDatos)
         {
             List<PointLatLng> listaDePuntosLongLati = new List<PointLatLng>();
