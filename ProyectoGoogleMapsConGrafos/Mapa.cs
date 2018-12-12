@@ -23,10 +23,11 @@ namespace ProyectoGoogleMapsConGrafos
         // Variables globales de enrutamiento
         private bool vgTrazarRuta = false;
         private bool vgVerAdyacentes = false;
+        private bool vgVerArco = false; 
         private int vgContadorIndicadoresDeRuta = 0;
-        private GMapMarker MarkerA;
-        private GMapMarker MarkerB;
-        private GMapOverlay MarkerOverlayRuta = new GMapOverlay("Marcadores");
+        private GMapMarker vgMarcadorA;
+        private GMapMarker vgMarcadorB;
+        private GMapOverlay vgCapaMarcadores = new GMapOverlay("Marcadores");
         public Mapa() 
         {  
             InitializeComponent();
@@ -37,23 +38,23 @@ namespace ProyectoGoogleMapsConGrafos
            
             //Inicializacion de propiedades por defecto del control gMap
             GMaps.Instance.Mode = AccessMode.ServerOnly;
-            gMapControl1.DragButton = MouseButtons.Left;
-            gMapControl1.CanDragMap = true;
-            gMapControl1.MapProvider = GoogleMapProvider.Instance;
-            gMapControl1.Position = new PointLatLng(this.vgLatitudInicial, this.vgLongitudInicial);
-            gMapControl1.MinZoom = 4;
-            gMapControl1.MaxZoom = 7;
-            gMapControl1.Zoom = 4;
-            gMapControl1.AutoScroll = true;
+            this.gMapControl1.DragButton = MouseButtons.Left;
+            this.gMapControl1.CanDragMap = true;
+            this.gMapControl1.MapProvider = GoogleMapProvider.Instance;
+            this.gMapControl1.Position = new PointLatLng(this.vgLatitudInicial, this.vgLongitudInicial);
+            this.gMapControl1.MinZoom = 4;
+            this.gMapControl1.MaxZoom = 7;
+            this.gMapControl1.Zoom = 4;
+            this.gMapControl1.AutoScroll = true;
             // Se agregan los overrlays al mapa
             GMapOverlay MarkerOverlay = new GMapOverlay("Aristas");
             gMapControl1.Overlays.Add(MarkerOverlay);
             MarkerOverlay = new GMapOverlay("Vertices");
-            gMapControl1.Overlays.Add(MarkerOverlay);
+            this.gMapControl1.Overlays.Add(MarkerOverlay);
             MarkerOverlay = new GMapOverlay("Marcadores");
-            gMapControl1.Overlays.Add(MarkerOverlay);
+            this.gMapControl1.Overlays.Add(MarkerOverlay);
             MarkerOverlay = new GMapOverlay("Ruta");
-            gMapControl1.Overlays.Add(MarkerOverlay);
+            this.gMapControl1.Overlays.Add(MarkerOverlay);
             InicializarDatos();
         }
         private void InicializarDatos()
@@ -64,22 +65,22 @@ namespace ProyectoGoogleMapsConGrafos
             for (int i = 0; i < objetosResultante.Length; i++)
             {
                 Dictionary<string, object> datos = (Dictionary<string, object>)objetosResultante[i];
-                GMarkerGoogle Marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(datos["Latitud"]), Convert.ToDouble(datos["Longitud"])), GMarkerGoogleType.green);
-                Marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                Marker.ToolTip = new GMapRoundedToolTip(Marker);
-                Brush ToolTipBackColor = new SolidBrush(Color.Blue);
-                Font f = new Font("Arial", 12, FontStyle.Bold);
-                ToolTipBackColor.GetType();
-                Marker.ToolTip.Stroke.Color = Color.Red;
-                Marker.ToolTip.TextPadding = new Size(5,10);
-                Marker.ToolTip.Font = f;
-                Marker.ToolTip.Fill = ToolTipBackColor;
-                ToolTipBackColor = new SolidBrush(Color.White);
-                Marker.ToolTip.Foreground = ToolTipBackColor;
-                Marker.ToolTipText = String.Format(" \n" + datos["Nombre"].ToString());
+                GMarkerGoogle Marcador = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(datos["Latitud"]), Convert.ToDouble(datos["Longitud"])), GMarkerGoogleType.green);
+                Marcador.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                Marcador.ToolTip = new GMapRoundedToolTip(Marcador);
+                Brush ColorFondoInformacion = new SolidBrush(Color.Blue);
+                Font letra = new Font("Arial", 12, FontStyle.Bold);
+                ColorFondoInformacion.GetType();
+                Marcador.ToolTip.Stroke.Color = Color.Red;
+                Marcador.ToolTip.TextPadding = new Size(5,10);
+                Marcador.ToolTip.Font = letra;
+                Marcador.ToolTip.Fill = ColorFondoInformacion;
+                ColorFondoInformacion = new SolidBrush(Color.White);
+                Marcador.ToolTip.Foreground = ColorFondoInformacion;
+                Marcador.ToolTipText = String.Format(" \n" + datos["Nombre"].ToString());
 
-                Marker.Tag = datos["Nombre"];
-                gMapControl1.Overlays[1].Markers.Add(Marker);
+                Marcador.Tag = datos["Nombre"];
+                this.gMapControl1.Overlays[1].Markers.Add(Marcador);
                 this.Gestor.InsertarVertice(datos["Nombre"].ToString(), Convert.ToDouble(datos["Longitud"]), Convert.ToDouble(datos["Latitud"]));
             }
             MarcartRutas();
@@ -90,18 +91,18 @@ namespace ProyectoGoogleMapsConGrafos
             
             for (int i = 0, j = 1; j < gMapControl1.Overlays[1].Markers.Count;i++)
             {
-                RutaObtenida = new GMapRoute (new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[j].Position }, "Ruta");
+                RutaObtenida = new GMapRoute (new List<PointLatLng> { this.gMapControl1.Overlays[1].Markers[i].Position, this.gMapControl1.Overlays[1].Markers[j].Position }, "Ruta");
                 RutaObtenida.Stroke.Width = 2;
                 RutaObtenida.Stroke.Color = Color.SeaGreen;
                 gMapControl1.Overlays[0].Routes.Add(RutaObtenida);
                 this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[j].Tag.ToString(), RutaObtenida.Distance * 1000);
                 if (i + 2 < gMapControl1.Overlays[1].Markers.Count)
                 {
-                    RutaObtenida = new GMapRoute(new List<PointLatLng> { gMapControl1.Overlays[1].Markers[i].Position, gMapControl1.Overlays[1].Markers[i + 2].Position }, "Ruta");
+                    RutaObtenida = new GMapRoute(new List<PointLatLng> { this.gMapControl1.Overlays[1].Markers[i].Position, this.gMapControl1.Overlays[1].Markers[i + 2].Position }, "Ruta");
                     RutaObtenida.Stroke.Width = 2;
                     RutaObtenida.Stroke.Color = Color.SeaGreen;
-                    gMapControl1.Overlays[0].Routes.Add(RutaObtenida);
-                    this.Gestor.InsertarArco(gMapControl1.Overlays[1].Markers[i].Tag.ToString(), gMapControl1.Overlays[1].Markers[i + 2].Tag.ToString(), RutaObtenida.Distance * 1000);
+                    this.gMapControl1.Overlays[0].Routes.Add(RutaObtenida);
+                    this.Gestor.InsertarArco(this.gMapControl1.Overlays[1].Markers[i].Tag.ToString(), this.gMapControl1.Overlays[1].Markers[i + 2].Tag.ToString(), RutaObtenida.Distance * 1000);
                 }
                 //if (i + 5 < gMapControl1.Overlays[1].Markers.Count)
                 //{
@@ -149,28 +150,95 @@ namespace ProyectoGoogleMapsConGrafos
 
 
 
-        private void btnLlegar_Click(object sender, EventArgs e)
-        {
-            gMapControl1.Zoom = 7;
-            gMapControl1.Zoom = 4;
-            gMapControl1.Overlays[2].Clear();
-            gMapControl1.Overlays[3].Clear();
-            this.vgTrazarRuta = true;
-            btnLlegar.Enabled = false;
-            btnLlegar.BackColor = Color.DarkGreen;
-            MarcartRutas();
-        }
+       
 
         private void gMapControl1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            if (this.vgTrazarRuta)
+            if (this.vgTrazarRuta && !this.vgVerAdyacentes && !this.vgVerArco)
             {
-                TrasarRutMasCaminoCorto(item);
+                this.TrasarRutMasCaminoCorto(item);
             }
-            if (this.vgVerAdyacentes)
+            if (this.vgVerAdyacentes && !this.vgVerArco && !this.vgTrazarRuta)
             {
-                TrasarRutaVerticesAyacentes(item);
+                this.TrasarRutaVerticesAyacentes(item);
             }
+            if (this.vgVerArco && !this.vgVerAdyacentes && !this.vgTrazarRuta)
+            {
+                this.TrasarRutaArco(item);
+            }
+        }
+        private void TrasarRutaArco(GMapMarker item)
+        {
+            GMarkerGoogle Marcador;
+            string result = "\n";
+            Brush ColorFondoInformacion = new SolidBrush(Color.Red);
+            Font f = new Font("Arial", 7, FontStyle.Bold);
+            switch (this.vgContadorIndicadoresDeRuta)
+            {
+                case 0:
+                    this.vgContadorIndicadoresDeRuta++;
+                    this.vgMarcadorA = item;
+
+                    Marcador = new GMarkerGoogle(this.vgMarcadorA.Position, GMarkerGoogleType.blue);
+                    Marcador.Tag = item.Tag;
+                    Marcador.ToolTipMode = MarkerTooltipMode.Always;
+                    Marcador.ToolTip = new GMapRoundedToolTip(Marcador);
+                    ColorFondoInformacion.GetType();
+                    Marcador.ToolTip.Stroke.Width = 2;
+                    Marcador.ToolTip.Stroke.Color = Color.Black;
+                    Marcador.ToolTip.TextPadding = new Size(5, 5);
+                    Marcador.ToolTip.Font = f;
+                    Marcador.ToolTip.Fill = ColorFondoInformacion;
+                    ColorFondoInformacion = new SolidBrush(Color.White);
+                    Marcador.ToolTip.Foreground = ColorFondoInformacion;
+                    Marcador.ToolTipText = String.Format("\nPunto A");
+                    this.vgCapaMarcadores.Markers.Add(Marcador);
+                    this.gMapControl1.Overlays[2] = this.vgCapaMarcadores;
+                    break;
+                case 1:
+                    this.vgContadorIndicadoresDeRuta++;
+                    this.vgMarcadorB = item;
+                    Arista<Lugar> arco = this.Gestor.GetArco(this.vgMarcadorA.Tag.ToString(), this.vgMarcadorB.Tag.ToString());
+                    if (arco != null)
+                    {
+                        List<Lugar> listaLugares = new List<Lugar> { arco.GetVertA().Info, arco.GetVertB().Info };
+                        MarcarRuta(listaLugares);
+                        Marcador = new GMarkerGoogle(this.vgMarcadorB.Position, GMarkerGoogleType.blue);
+                        Marcador.Tag = item.Tag;
+                        Marcador.ToolTipMode = MarkerTooltipMode.Always;
+                        Marcador.ToolTip = new GMapRoundedToolTip(Marcador);
+                        ColorFondoInformacion.GetType();
+                        Marcador.ToolTip.Stroke.Color = Color.Black;
+                        Marcador.ToolTip.TextPadding = new Size(5, 5);
+                        Marcador.ToolTip.Font = f;
+                        Marcador.ToolTip.Fill = ColorFondoInformacion;
+                        ColorFondoInformacion = new SolidBrush(Color.White);
+                        Marcador.ToolTip.Foreground = ColorFondoInformacion;
+                        Marcador.ToolTipText = String.Format("\nPunto B");
+                        this.vgCapaMarcadores.Markers.Add(Marcador);
+                        this.gMapControl1.Overlays[2] = this.vgCapaMarcadores;
+                        result += "Punto A: " + arco.GetVertA().Info.GetNombre() + "\n";
+                        result += "Punto B: " + arco.GetVertB().Info.GetNombre() + "\n";
+                        result += "Peso: " + arco.GetPeso() + " Metros";
+                        this.textDatosVerticeBuscado.Text = result;
+                    }
+                    else
+                    {
+
+                        if (arco == null)
+                        {
+                            result = "el punto de inicio y final no son un arco";
+                        }
+                        MessageBox.Show("Ocurrio un error " + result);
+                        this.gMapControl1.Overlays[2].Clear();
+                    }
+                    this.vgContadorIndicadoresDeRuta = 0;
+                    this.vgVerArco = false;
+                    this.btnVerArco.Enabled = true;
+                    this.btnVerArco.BackColor = Color.MediumSeaGreen;
+                    break;
+            }
+            RefrecarMapa();
         }
         private void TrasarRutaVerticesAyacentes(GMapMarker item)
         {
@@ -178,109 +246,128 @@ namespace ProyectoGoogleMapsConGrafos
             string result = "\n";
             if (listaLugaresAyacentes != null)
             {
-                GMapRoute RutaObtenida;
-                gMapControl1.Overlays[0].Clear();
-                gMapControl1.Overlays[3].Clear();
+                result += "Punto A : " + item.Tag.ToString()+"\n";
+                result += String.Format("{0}\t\t{1}\n", "Puntos B: ", "Peso:");
+               GMapRoute RutaObtenida;
+                this.gMapControl1.Overlays[0].Clear();
+                this.gMapControl1.Overlays[3].Clear();
                 List<PointLatLng> listaDePuntosLongLati = new List<PointLatLng>();
+                Brush ToolTipBackColor = new SolidBrush(Color.Red);
+                Font f = new Font("Arial", 7, FontStyle.Bold);
+                GMarkerGoogle Marcador = new GMarkerGoogle(item.Position, GMarkerGoogleType.blue);
+                Marcador.Tag = item.Tag;
+                this.vgCapaMarcadores.Markers.Add(Marcador);
+                this.gMapControl1.Overlays[3] = vgCapaMarcadores;
                 for (int i = 0; i < listaLugaresAyacentes.Count; i++)
                 {
                     RutaObtenida = new GMapRoute(new List<PointLatLng> { item.Position, new PointLatLng { Lat = listaLugaresAyacentes[i].GetLatitud(), Lng = listaLugaresAyacentes[i].GetLongitud() } }, "Camino");
                     RutaObtenida.Stroke.Width = 2;
                     RutaObtenida.Stroke.Color = Color.Red;
-                    gMapControl1.Overlays[3].Routes.Add(RutaObtenida);
-                    result += listaLugaresAyacentes[i].GetNombre() + "\n";
+                    this.gMapControl1.Overlays[3].Routes.Add(RutaObtenida);
+                    result += String.Format("{0}      \t{1}",listaLugaresAyacentes[i].GetNombre(), RutaObtenida.Distance * 1000 + " M") + "\n";
                 }
+                RefrecarMapa();
             }
             else
             {
                 result += "No se encontraron vertices ayacentes";
             }
-            textDatosVerticeBuscado.Text = result;
+            this.textDatosVerticeBuscado.Text = result;
             this.vgVerAdyacentes = false;
-            btnVerVerticesAdyacentes.Enabled = true;
+            this.btnVerVerticesAdyacentes.Enabled = true;
             this.btnVerVerticesAdyacentes.BackColor = Color.MediumSeaGreen;
         }
         private void TrasarRutMasCaminoCorto(GMapMarker item)
         {
-            GMarkerGoogle Marker;
-            Brush ToolTipBackColor = new SolidBrush(Color.Red);
+            GMarkerGoogle Marcador;
+            Brush ColorFondoInformacion = new SolidBrush(Color.Red);
             Font f = new Font("Arial", 7, FontStyle.Bold);
-            switch (vgContadorIndicadoresDeRuta)
+            string result = "";
+            switch (this.vgContadorIndicadoresDeRuta)
             {
                 case 0:
                     this.vgContadorIndicadoresDeRuta++;
-                    this.MarkerA = item;
+                    this.vgMarcadorA = item;
 
-                    Marker = new GMarkerGoogle(this.MarkerA.Position, GMarkerGoogleType.blue);
-                    Marker.Tag = item.Tag;
-                    Marker.ToolTipMode = MarkerTooltipMode.Always;
-                    Marker.ToolTip = new GMapRoundedToolTip(Marker);
-                    ToolTipBackColor.GetType();
-                    Marker.ToolTip.Stroke.Width = 2;
-                    Marker.ToolTip.Stroke.Color = Color.Black;
-                    Marker.ToolTip.TextPadding = new Size(5, 5);
-                    Marker.ToolTip.Font = f;
-                    Marker.ToolTip.Fill = ToolTipBackColor;
-                    ToolTipBackColor = new SolidBrush(Color.White);
-                    Marker.ToolTip.Foreground = ToolTipBackColor;
-                    Marker.ToolTipText = String.Format("\nPunto A");
-                    MarkerOverlayRuta.Markers.Add(Marker);
-                    gMapControl1.Overlays[2] = MarkerOverlayRuta;
+                    Marcador = new GMarkerGoogle(this.vgMarcadorA.Position, GMarkerGoogleType.blue);
+                    Marcador.Tag = item.Tag;
+                    Marcador.ToolTipMode = MarkerTooltipMode.Always;
+                    Marcador.ToolTip = new GMapRoundedToolTip(Marcador);
+                    ColorFondoInformacion.GetType();
+                    Marcador.ToolTip.Stroke.Width = 2;
+                    Marcador.ToolTip.Stroke.Color = Color.Black;
+                    Marcador.ToolTip.TextPadding = new Size(5, 5);
+                    Marcador.ToolTip.Font = f;
+                    Marcador.ToolTip.Fill = ColorFondoInformacion;
+                    ColorFondoInformacion = new SolidBrush(Color.White);
+                    Marcador.ToolTip.Foreground = ColorFondoInformacion;
+                    Marcador.ToolTipText = String.Format("\nPunto A");
+                    this.vgCapaMarcadores.Markers.Add(Marcador);
+                    this.gMapControl1.Overlays[2] = this.vgCapaMarcadores;
                     break;
                 case 1:
                     this.vgContadorIndicadoresDeRuta++;
-                    this.MarkerB = item;
-                    List<Lugar> listaCaminoMinimo = this.Gestor.GetRutaMinimaDijkstra(MarkerA.Tag.ToString(), MarkerB.Tag.ToString());
+                    this.vgMarcadorB = item;
+                    List<Lugar> listaCaminoMinimo = this.Gestor.GetRutaMinimaDijkstra(this.vgMarcadorA.Tag.ToString(), this.vgMarcadorB.Tag.ToString());
                     if (listaCaminoMinimo != null)
                     {
-                        MarcarRuta(listaCaminoMinimo);
-                        Marker = new GMarkerGoogle(this.MarkerB.Position, GMarkerGoogleType.blue);
-                        Marker.Tag = item.Tag;
-                        Marker.ToolTipMode = MarkerTooltipMode.Always;
-                        Marker.ToolTip = new GMapRoundedToolTip(Marker);
-                        ToolTipBackColor.GetType();
-                        Marker.ToolTip.Stroke.Color = Color.Black;
-                        Marker.ToolTip.TextPadding = new Size(5, 5);
-                        Marker.ToolTip.Font = f;
-                        Marker.ToolTip.Fill = ToolTipBackColor;
-                        ToolTipBackColor = new SolidBrush(Color.White);
-                        Marker.ToolTip.Foreground = ToolTipBackColor;
-                        Marker.ToolTipText = String.Format("\nPunto B");
-                        MarkerOverlayRuta.Markers.Add(Marker);
-                        gMapControl1.Overlays[2] = MarkerOverlayRuta;
+                        result =MarcarRuta(listaCaminoMinimo);
+                        Marcador = new GMarkerGoogle(this.vgMarcadorB.Position, GMarkerGoogleType.blue);
+                        Marcador.Tag = item.Tag;
+                        Marcador.ToolTipMode = MarkerTooltipMode.Always;
+                        Marcador.ToolTip = new GMapRoundedToolTip(Marcador);
+                        ColorFondoInformacion.GetType();
+                        Marcador.ToolTip.Stroke.Color = Color.Black;
+                        Marcador.ToolTip.TextPadding = new Size(5, 5);
+                        Marcador.ToolTip.Font = f;
+                        Marcador.ToolTip.Fill = ColorFondoInformacion;
+                        ColorFondoInformacion = new SolidBrush(Color.White);
+                        Marcador.ToolTip.Foreground = ColorFondoInformacion;
+                        Marcador.ToolTipText = String.Format("\nPunto B");
+                        this.vgCapaMarcadores.Markers.Add(Marcador);
+                        this.gMapControl1.Overlays[2] = this.vgCapaMarcadores;
+                        this.textDatosVerticeBuscado.Text = result;
                     }
                     else
                     {
-                        string result = "";
-                        if (this.MarkerA.Tag.ToString().Equals(this.MarkerB.Tag.ToString()))
+                        if (this.vgMarcadorA.Tag.ToString().Equals(this.vgMarcadorB.Tag.ToString()))
                         {
                             result = "el punto de inicio y final es el mismo";
                         }
                         MessageBox.Show("Ocurrio un error " + result);
-                        gMapControl1.Overlays[2].Clear();
+                        this.gMapControl1.Overlays[2].Clear();
                     }
                     this.vgContadorIndicadoresDeRuta = 0;
                     this.vgTrazarRuta = false;
-                    btnLlegar.Enabled = true;
+                    this.btnLlegar.Enabled = true;
                     this.btnLlegar.BackColor = Color.MediumSeaGreen;
                     break;
             }
-            gMapControl1.Zoom = 7;
-            gMapControl1.Zoom = 4;
+            RefrecarMapa();
         }
-        private void MarcarRuta(List<Lugar> listaDatos)
+        private string  MarcarRuta(List<Lugar> listaDatos)
         {
-            List<PointLatLng> listaDePuntosLongLati = new List<PointLatLng>();
-            for (int i = 0; i< listaDatos.Count; i++)
+            string result = "", costo = "\n";
+            if (listaDatos != null && listaDatos.Count > 0)
             {
-                listaDePuntosLongLati.Add(new PointLatLng(listaDatos[i].GetLatitud(),listaDatos[i].GetLongitud()));
+                result += "Vertices:\n";
+                List<PointLatLng> listaDePuntosLongLati = new List<PointLatLng>();
+                for (int i = 0; i < listaDatos.Count; i++)
+                {
+                    listaDePuntosLongLati.Add(new PointLatLng(listaDatos[i].GetLatitud(), listaDatos[i].GetLongitud()));
+                    result +=listaDatos[i].GetNombre() + "\n";
+                }
+                GMapRoute RutaObtenida = new GMapRoute(listaDePuntosLongLati, "Camino");
+                costo += "Costo: "+ RutaObtenida.Distance*1000+" Metros\n";
+                costo += result;
+                result = costo;
+                RutaObtenida.Stroke.Width = 2;
+                this.gMapControl1.Overlays[0].Clear();
+                RutaObtenida.Stroke.Color = Color.Red;
+                this.gMapControl1.Overlays[3].Routes.Add(RutaObtenida);
             }
-            GMapRoute  RutaObtenida = new GMapRoute(listaDePuntosLongLati,"Camino");
-            RutaObtenida.Stroke.Width = 2;
-            gMapControl1.Overlays[0].Clear();
-            RutaObtenida.Stroke.Color = Color.Red;
-            gMapControl1.Overlays[3].Routes.Add(RutaObtenida);
-           
+
+            return result;
         }
 
 
@@ -288,7 +375,7 @@ namespace ProyectoGoogleMapsConGrafos
         private void btnBucarVerice_Click(object sender, EventArgs e)
         {
             string txt = this.txtNombreVertice.Text.ToUpper();
-            BuscarVertice(txt);
+            this.BuscarVertice(txt);
             this.txtNombreVertice.Focus();
         }
         private void BuscarVertice( string pNombreVertice)
@@ -297,16 +384,16 @@ namespace ProyectoGoogleMapsConGrafos
             if (lugarEncontrado == null)
             {
                 this.textDatosVerticeBuscado.Text = "\n\nNo se encontro un vertice con ese nombre";
-                if (btnIrVerticer.Visible)
+                if (this.btnIrVerticer.Visible)
                 {
-                    btnIrVerticer.Visible = false;
+                    this.btnIrVerticer.Visible = false;
                 }
-                gMapControl1.Zoom = 4;
+                this.gMapControl1.Zoom = 4;
                 return;
             }
-            if (!btnIrVerticer.Visible)
+            if (!this.btnIrVerticer.Visible)
             {
-                btnIrVerticer.Visible = true;
+                this.btnIrVerticer.Visible = true;
             }
             this.textDatosVerticeBuscado.Text = String.Format("\n\n Nombre: {0}\n Longitud: {1}\n Latitud: {2}\n", lugarEncontrado.GetNombre(), lugarEncontrado.GetLongitud(), lugarEncontrado.GetLatitud());
             this.vgLatitudInicial = lugarEncontrado.GetLatitud();
@@ -315,8 +402,8 @@ namespace ProyectoGoogleMapsConGrafos
 
         private void btnIrVerticer_Click(object sender, EventArgs e)
         {
-            gMapControl1.Position = new PointLatLng(this.vgLatitudInicial, this.vgLongitudInicial);
-            gMapControl1.Zoom = 7;
+            this.gMapControl1.Position = new PointLatLng(this.vgLatitudInicial, this.vgLongitudInicial);
+            this.gMapControl1.Zoom = 7;
         }
 
         private void btnCerraApp_Click(object sender, EventArgs e)
@@ -327,18 +414,66 @@ namespace ProyectoGoogleMapsConGrafos
                 this.Close();
             }
         }
+        private void RefrecarMapa()
+        {
+            this.gMapControl1.Zoom = 3;
+            this.gMapControl1.Zoom = 4;
+        }
+        private void btnLlegar_Click(object sender, EventArgs e)
+        {
 
+            if (!this.vgVerAdyacentes && !this.vgVerArco)
+            {
+                this.RefrecarMapa();
+                this.gMapControl1.Overlays[2].Clear();
+                this.gMapControl1.Overlays[3].Clear();
+                this.vgTrazarRuta = true;
+                this.btnLlegar.Enabled = false;
+                this.btnLlegar.BackColor = Color.DarkGreen;
+                MarcartRutas();
+            }
+            else
+            {
+                MessageBox.Show("Ya esta seleccionada una de la funcionalidade de aplicacion");
+            }
+
+        }
         private void btnVerVerticesAdyacentes_Click(object sender, EventArgs e)
         {
-            gMapControl1.Zoom = 7;
-            gMapControl1.Zoom = 4;
-            gMapControl1.Overlays[2].Clear();
-            gMapControl1.Overlays[3].Clear();
-            this.vgVerAdyacentes = true;
-            btnVerVerticesAdyacentes.Enabled = false;
-            btnVerVerticesAdyacentes.BackColor = Color.DarkGreen;
-            textDatosVerticeBuscado.Text = "";
-            MarcartRutas();
+            if (!this.vgVerArco && !this.vgTrazarRuta)
+            {
+                this.gMapControl1.Overlays[2].Clear();
+                this.gMapControl1.Overlays[3].Clear();
+                this.vgVerAdyacentes = true;
+                this.btnVerVerticesAdyacentes.Enabled = false;
+                this.btnVerVerticesAdyacentes.BackColor = Color.DarkGreen;
+                this.textDatosVerticeBuscado.Text = "";
+                this.MarcartRutas();
+            }
+            else
+            {
+                MessageBox.Show("Ya esta seleccionada una de la funcionalidade de aplicacion");
+            }
+        }
+
+        private void btnVerArco_Click(object sender, EventArgs e)
+        {
+
+            if (!this.vgVerAdyacentes && !this.vgTrazarRuta)
+            {
+                this.gMapControl1.Overlays[2].Clear();
+                this.gMapControl1.Overlays[3].Clear();
+                this.vgVerArco = true;
+                this.btnVerArco.Enabled = false;
+                this.btnVerArco.BackColor = Color.DarkGreen;
+                this.textDatosVerticeBuscado.Text = "";
+                this.MarcartRutas();
+            }
+            else
+            {
+                MessageBox.Show("Ya esta seleccionada una de la funcionalidade de aplicacion");
+            }
+           
         }
     }
 }
