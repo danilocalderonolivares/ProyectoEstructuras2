@@ -57,5 +57,21 @@ namespace Core
             }
             return verticeEncontrado.Info;
         }
+        public List<Lugar> ObtenerVerticesAyacentes(string pNombreVertice)
+        {
+            Lista<Vertice<Lugar>> ListaAyacentes = Grafo.GetListaSucesores(pNombreVertice);
+            if (ListaAyacentes != null)
+            {
+                List<Lugar> ListaLugaresAyacentes = new List<Lugar>();
+                Iterador<Vertice<Lugar>> iterador = new Iterador<Vertice<Lugar>>(ListaAyacentes.GetCabeza());
+                for (Vertice<Lugar> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+                {
+                    ListaLugaresAyacentes.Add(verticeAdyac.Info);
+                }
+
+                return ListaLugaresAyacentes;
+            }
+            return null;
+        }
     }
 }

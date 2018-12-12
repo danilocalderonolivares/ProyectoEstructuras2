@@ -38,6 +38,7 @@
             this.textDatosVerticeBuscado = new System.Windows.Forms.RichTextBox();
             this.btnIrVerticer = new System.Windows.Forms.Button();
             this.btnCerraApp = new System.Windows.Forms.Button();
+            this.btnVerVerticesAdyacentes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnLlegar
@@ -45,7 +46,7 @@
             this.btnLlegar.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btnLlegar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnLlegar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLlegar.Location = new System.Drawing.Point(797, 315);
+            this.btnLlegar.Location = new System.Drawing.Point(797, 297);
             this.btnLlegar.Name = "btnLlegar";
             this.btnLlegar.Size = new System.Drawing.Size(159, 23);
             this.btnLlegar.TabIndex = 7;
@@ -156,6 +157,19 @@
             this.btnCerraApp.UseVisualStyleBackColor = false;
             this.btnCerraApp.Click += new System.EventHandler(this.btnCerraApp_Click);
             // 
+            // btnVerVerticesAdyacentes
+            // 
+            this.btnVerVerticesAdyacentes.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnVerVerticesAdyacentes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnVerVerticesAdyacentes.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerVerticesAdyacentes.Location = new System.Drawing.Point(797, 262);
+            this.btnVerVerticesAdyacentes.Name = "btnVerVerticesAdyacentes";
+            this.btnVerVerticesAdyacentes.Size = new System.Drawing.Size(159, 23);
+            this.btnVerVerticesAdyacentes.TabIndex = 24;
+            this.btnVerVerticesAdyacentes.Text = "Vertices Adyacentes";
+            this.btnVerVerticesAdyacentes.UseVisualStyleBackColor = false;
+            this.btnVerVerticesAdyacentes.Click += new System.EventHandler(this.btnVerVerticesAdyacentes_Click);
+            // 
             // Mapa
             // 
             this.AllowDrop = true;
@@ -164,6 +178,7 @@
             this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(995, 458);
             this.ControlBox = false;
+            this.Controls.Add(this.btnVerVerticesAdyacentes);
             this.Controls.Add(this.btnCerraApp);
             this.Controls.Add(this.btnIrVerticer);
             this.Controls.Add(this.textDatosVerticeBuscado);
@@ -192,6 +207,7 @@
         private System.Windows.Forms.RichTextBox textDatosVerticeBuscado;
         private System.Windows.Forms.Button btnIrVerticer;
         private System.Windows.Forms.Button btnCerraApp;
+        private System.Windows.Forms.Button btnVerVerticesAdyacentes;
     }
 }
 
