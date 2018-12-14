@@ -48,6 +48,15 @@ namespace Core
             }
             return null;
         }
+        public Arista<Lugar> GetArco(string pNombreVerticeA, string pNombreVerticeB)
+        {
+            Arista<Lugar> Arco = Grafo.GetArco(pNombreVerticeA, pNombreVerticeB);
+            if (Arco != null)
+            {
+                return Arco;
+            }
+            return null;
+        }
         public Lugar BuscarVerticePorNombre(string pNombreVertice)
         {
             Vertice<Lugar> verticeEncontrado = Grafo.GetVeticePorNombre(pNombreVertice);

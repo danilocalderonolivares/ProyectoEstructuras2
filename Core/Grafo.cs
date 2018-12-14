@@ -70,7 +70,7 @@ namespace Core
             }
             return siExiste;
         }
-        private Arista<T> GetArco(string pVertice1, string pVertice2)
+        public  Arista<T> GetArco(string pVertice1, string pVertice2)
         {
             int index1, index2;
             index1 = ArregloDVertices.GetIndex(pVertice1);
@@ -105,19 +105,7 @@ namespace Core
             }
             return null;
         }
-        public Lista<T> GetUbicacion(string pNombreVertice)
-        {
-            return null;
-        }
-        public Lista<T> GetCaminoMasCerca(string pNombreVerticeA,string pNombreVerticeB)
-        {
-            return null;
-        }
         public Lista<T> GetCaminoMasLargo(string pNombreVerticeA, string pNombreVerticeB)
-        {
-            return null;
-        }
-        public Lista<T> GetUbicacionesAdyacentes(string pNombreVertice)
         {
             return null;
         }

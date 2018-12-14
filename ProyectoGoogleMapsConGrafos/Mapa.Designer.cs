@@ -39,6 +39,7 @@
             this.btnIrVerticer = new System.Windows.Forms.Button();
             this.btnCerraApp = new System.Windows.Forms.Button();
             this.btnVerVerticesAdyacentes = new System.Windows.Forms.Button();
+            this.btnVerArco = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnLlegar
@@ -46,9 +47,9 @@
             this.btnLlegar.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btnLlegar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnLlegar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLlegar.Location = new System.Drawing.Point(797, 297);
+            this.btnLlegar.Location = new System.Drawing.Point(770, 349);
             this.btnLlegar.Name = "btnLlegar";
-            this.btnLlegar.Size = new System.Drawing.Size(159, 23);
+            this.btnLlegar.Size = new System.Drawing.Size(187, 23);
             this.btnLlegar.TabIndex = 7;
             this.btnLlegar.Text = "Camino corto";
             this.btnLlegar.UseVisualStyleBackColor = false;
@@ -70,7 +71,7 @@
             this.gMapControl1.GrayScaleMode = false;
             this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.gMapControl1.LevelsKeepInMemmory = 5;
-            this.gMapControl1.Location = new System.Drawing.Point(12, 12);
+            this.gMapControl1.Location = new System.Drawing.Point(11, 11);
             this.gMapControl1.MarkersEnabled = true;
             this.gMapControl1.MaxZoom = 2;
             this.gMapControl1.MinZoom = 2;
@@ -84,23 +85,23 @@
             this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapControl1.ShowTileGridLines = false;
-            this.gMapControl1.Size = new System.Drawing.Size(735, 434);
+            this.gMapControl1.Size = new System.Drawing.Size(705, 434);
             this.gMapControl1.TabIndex = 16;
             this.gMapControl1.Zoom = 0D;
             this.gMapControl1.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapControl1_OnMarkerClick);
             // 
             // txtNombreVertice
             // 
-            this.txtNombreVertice.Location = new System.Drawing.Point(767, 60);
+            this.txtNombreVertice.Location = new System.Drawing.Point(743, 60);
             this.txtNombreVertice.Name = "txtNombreVertice";
-            this.txtNombreVertice.Size = new System.Drawing.Size(216, 20);
+            this.txtNombreVertice.Size = new System.Drawing.Size(240, 20);
             this.txtNombreVertice.TabIndex = 18;
             // 
             // lblNombreVertice
             // 
             this.lblNombreVertice.AutoSize = true;
             this.lblNombreVertice.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
-            this.lblNombreVertice.Location = new System.Drawing.Point(764, 39);
+            this.lblNombreVertice.Location = new System.Drawing.Point(747, 39);
             this.lblNombreVertice.Name = "lblNombreVertice";
             this.lblNombreVertice.Size = new System.Drawing.Size(172, 15);
             this.lblNombreVertice.TabIndex = 19;
@@ -124,9 +125,9 @@
             this.textDatosVerticeBuscado.BackColor = System.Drawing.SystemColors.InfoText;
             this.textDatosVerticeBuscado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textDatosVerticeBuscado.ForeColor = System.Drawing.Color.Red;
-            this.textDatosVerticeBuscado.Location = new System.Drawing.Point(767, 117);
+            this.textDatosVerticeBuscado.Location = new System.Drawing.Point(743, 117);
             this.textDatosVerticeBuscado.Name = "textDatosVerticeBuscado";
-            this.textDatosVerticeBuscado.Size = new System.Drawing.Size(216, 132);
+            this.textDatosVerticeBuscado.Size = new System.Drawing.Size(240, 132);
             this.textDatosVerticeBuscado.TabIndex = 21;
             this.textDatosVerticeBuscado.Text = "";
             // 
@@ -135,9 +136,9 @@
             this.btnIrVerticer.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btnIrVerticer.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnIrVerticer.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
-            this.btnIrVerticer.Location = new System.Drawing.Point(767, 88);
+            this.btnIrVerticer.Location = new System.Drawing.Point(743, 88);
             this.btnIrVerticer.Name = "btnIrVerticer";
-            this.btnIrVerticer.Size = new System.Drawing.Size(100, 23);
+            this.btnIrVerticer.Size = new System.Drawing.Size(124, 23);
             this.btnIrVerticer.TabIndex = 22;
             this.btnIrVerticer.Text = "Ir al vertice";
             this.btnIrVerticer.UseVisualStyleBackColor = false;
@@ -149,7 +150,7 @@
             this.btnCerraApp.BackColor = System.Drawing.Color.Crimson;
             this.btnCerraApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerraApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCerraApp.Location = new System.Drawing.Point(959, 3);
+            this.btnCerraApp.Location = new System.Drawing.Point(968, 3);
             this.btnCerraApp.Name = "btnCerraApp";
             this.btnCerraApp.Size = new System.Drawing.Size(33, 24);
             this.btnCerraApp.TabIndex = 23;
@@ -162,13 +163,26 @@
             this.btnVerVerticesAdyacentes.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btnVerVerticesAdyacentes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnVerVerticesAdyacentes.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerVerticesAdyacentes.Location = new System.Drawing.Point(797, 262);
+            this.btnVerVerticesAdyacentes.Location = new System.Drawing.Point(770, 262);
             this.btnVerVerticesAdyacentes.Name = "btnVerVerticesAdyacentes";
-            this.btnVerVerticesAdyacentes.Size = new System.Drawing.Size(159, 23);
+            this.btnVerVerticesAdyacentes.Size = new System.Drawing.Size(187, 23);
             this.btnVerVerticesAdyacentes.TabIndex = 24;
             this.btnVerVerticesAdyacentes.Text = "Vertices Adyacentes";
             this.btnVerVerticesAdyacentes.UseVisualStyleBackColor = false;
             this.btnVerVerticesAdyacentes.Click += new System.EventHandler(this.btnVerVerticesAdyacentes_Click);
+            // 
+            // btnVerArco
+            // 
+            this.btnVerArco.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnVerArco.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnVerArco.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerArco.Location = new System.Drawing.Point(770, 307);
+            this.btnVerArco.Name = "btnVerArco";
+            this.btnVerArco.Size = new System.Drawing.Size(187, 23);
+            this.btnVerArco.TabIndex = 25;
+            this.btnVerArco.Text = "Ver Arco";
+            this.btnVerArco.UseVisualStyleBackColor = false;
+            this.btnVerArco.Click += new System.EventHandler(this.btnVerArco_Click);
             // 
             // Mapa
             // 
@@ -176,8 +190,9 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Teal;
-            this.ClientSize = new System.Drawing.Size(995, 458);
+            this.ClientSize = new System.Drawing.Size(1004, 458);
             this.ControlBox = false;
+            this.Controls.Add(this.btnVerArco);
             this.Controls.Add(this.btnVerVerticesAdyacentes);
             this.Controls.Add(this.btnCerraApp);
             this.Controls.Add(this.btnIrVerticer);
@@ -208,6 +223,7 @@
         private System.Windows.Forms.Button btnIrVerticer;
         private System.Windows.Forms.Button btnCerraApp;
         private System.Windows.Forms.Button btnVerVerticesAdyacentes;
+        private System.Windows.Forms.Button btnVerArco;
     }
 }
 
