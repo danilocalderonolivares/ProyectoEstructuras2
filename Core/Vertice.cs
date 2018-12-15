@@ -1,5 +1,5 @@
 ﻿namespace Core
-{
+{//Pojo
     public class Vertice<T>
     {
         public T Info { get; set; }

@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace Core
 {
     public class Informacion<Clave, T> : Object

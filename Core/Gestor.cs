@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 namespace Core
 {
     public class Gestor
@@ -27,24 +26,25 @@ namespace Core
         {
             return Grafo.InsertarArco(pNombreVerticeA, pNombreVerticeB, pPeso);
         }
-        public Lista<Lugar> GetCaminoMasRapido(string pNombreVerticeA, string pNombreVerticeB)
-        {
-
-            return null;
-        }
         public List<Lugar> GetRutaMinimaDijkstra(string pNombreVerticeA, string pNombreVerticeB)
         {
-            Lista<Vertice<Lugar>>  ListaCaminoMinimo = Grafo.RutaMinimaDijkstra(pNombreVerticeA, pNombreVerticeB);
-            if (ListaCaminoMinimo != null)
+            try
             {
-                List<Lugar> ListaLugares = new List<Lugar>();
-                Iterador<Vertice<Lugar>> iterador = new Iterador<Vertice<Lugar>>(ListaCaminoMinimo.GetCabeza());
-                for (Vertice<Lugar> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+                Lista<Vertice<Lugar>> ListaCaminoMinimo = Grafo.RutaMinimaDijkstra(pNombreVerticeA, pNombreVerticeB);
+                if (ListaCaminoMinimo != null)
                 {
-                    ListaLugares.Add(verticeAdyac.Info);
+                    List<Lugar> ListaLugares = new List<Lugar>();
+                    Iterador<Vertice<Lugar>> iterador = new Iterador<Vertice<Lugar>>(ListaCaminoMinimo.GetCabeza());
+                    for (Vertice<Lugar> verticeAdyac = iterador.Next(); verticeAdyac != null; verticeAdyac = iterador.Next())
+                    {
+                        ListaLugares.Add(verticeAdyac.Info);
+                    }
+                    return ListaLugares;
                 }
-
-                return ListaLugares;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
             return null;
         }
@@ -55,6 +55,7 @@ namespace Core
             {
                 return Arco;
             }
+            Console.WriteLine("No se encontro arco que conecte los vertices "+pNombreVerticeA+" y "+pNombreVerticeB);
             return null;
         }
         public Lugar BuscarVerticePorNombre(string pNombreVertice)
@@ -62,6 +63,7 @@ namespace Core
             Vertice<Lugar> verticeEncontrado = Grafo.GetVeticePorNombre(pNombreVertice);
             if (verticeEncontrado == null)
             {
+                Console.WriteLine("No se encontro vertice con el nombre de " +pNombreVertice);
                 return null;
             }
             return verticeEncontrado.Info;
@@ -80,6 +82,7 @@ namespace Core
 
                 return ListaLugaresAyacentes;
             }
+            Console.WriteLine("No se encontraron vertices ayacentes para el vertice "+pNombreVertice +" !");
             return null;
         }
     }

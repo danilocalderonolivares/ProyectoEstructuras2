@@ -1,5 +1,5 @@
 ﻿namespace Core
-{
+{//Pojo
     public class Lugar
     {
         private string Nombre;
