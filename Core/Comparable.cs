@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-
 namespace Core
 {
     public class Comparable : IComparer
@@ -62,7 +61,6 @@ namespace Core
                     return -1;
                 }
             }
-
             return 0;
         }
     }

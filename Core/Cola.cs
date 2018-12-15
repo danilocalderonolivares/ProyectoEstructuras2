@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Core
 {
     public class Cola<T>
@@ -143,7 +136,9 @@ namespace Core
         public T DeColar()
         {
             if (this.EsVacia())
+            {
                 return default(T);
+            }
             NodoL<T> x = this.Inicio.GetSig();
             this.Inicio.SetSig(x.GetSig());
             x.GetSig().SetAnt(Inicio);

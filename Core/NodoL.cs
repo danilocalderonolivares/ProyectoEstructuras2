@@ -1,5 +1,5 @@
 ﻿namespace Core
-{
+{//Pojo
     public class NodoL<T>
     {
         private T Info;
